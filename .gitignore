@@ -1,4 +1,7 @@
 # System files like indexes and thumbnails, we want to avoid these in the repo
 .DS_Store
 
+# LibreOffice lockfiles
+.~lock.*
+
 # More to come when we know whether we're using java or php
