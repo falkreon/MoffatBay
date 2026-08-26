@@ -82,8 +82,8 @@ CREATE TABLE ContactMessage (
 
 -- RolePermission table
 CREATE TABLE RolePermission (
-    RoleId INT,
-    PermissionId INT,
+    RoleId INT NOT NULL,
+    PermissionId INT NOT NULL,
     PRIMARY KEY (RoleId, PermissionId),
     FOREIGN KEY (RoleId) REFERENCES Role(Id),
     FOREIGN KEY (PermissionId) REFERENCES Permission(Id)
