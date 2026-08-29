@@ -11,6 +11,7 @@ USE MoffatBay;
 INSERT INTO Role (Name)
 VALUES
     ('Guest'),
+    ('Customer'),
     ('Employee'),
     ('Admin');
 
@@ -26,7 +27,9 @@ VALUES
     ('Edit Reservations'),
     ('Delete Reservations'),
     ('View Contact Messages'),
-    ('Manage Users');
+    ('View Customer Profile'),
+    ('Employee Profile View');
+    
 
 
 -- ----------------------------------------------------
@@ -42,25 +45,25 @@ INSERT INTO `User`
     (Email, FirstName, LastName, PasswordHash, RoleId)
 VALUES
     (
-        'john.smith@example.com',
+        'john.smith@gmail.com',
         'John',
         'Smith',
-        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-        1
-    ),
-    (
-        'sarah.johnson@moffatbay.com',
-        'Sarah',
-        'Johnson',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
         2
     ),
     (
-        'michael.admin@moffatbay.com',
+        'sarah.johnson@gmail.com',
+        'Sarah',
+        'Johnson',
+        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
+        3
+    ),
+    (
+        'michael.admin@gmail.com',
         'Michael',
         'Anderson',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-        3
+        4
     );
 
 
@@ -83,31 +86,31 @@ VALUES
     (
         1,
         'MBR-100001',
-        'Standard Queen',
+        'double full beds',
         '2026-09-10',
         '2026-09-13',
         2,
-        449.97,
+        360.00,
         'Late check-in requested.'
     ),
     (
         2,
         'MBR-100002',
-        'Deluxe King',
+        'queen',
         '2026-10-05',
-        '2026-10-08',
+        '2026-10-06',
         2,
-        629.97,
+        135.00,
         'Guest requests a room with a bay view.'
     ),
     (
         3,
         'MBR-100003',
-        'Family Suite',
+        'double queen beds',
         '2026-11-20',
-        '2026-11-24',
+        '2026-11-27',
         4,
-        999.96,
+        1050.00,
         'Please provide extra towels and pillows.'
     );
 
@@ -130,7 +133,7 @@ VALUES
     (
         1,
         'John Smith',
-        'john.smith@example.com',
+        'john.smith@gmail.com',
         '555-123-4567',
         'New',
         'Reservation Question',
@@ -139,7 +142,7 @@ VALUES
     (
         2,
         'Sarah Johnson',
-        'sarah.johnson@moffatbay.com',
+        'sarah.johnson@gmail.com',
         '555-234-5678',
         'In Progress',
         'Room Availability',
@@ -148,7 +151,7 @@ VALUES
     (
         3,
         'Michael Anderson',
-        'michael.admin@moffatbay.com',
+        'michael.admin@gmail.com',
         NULL,
         'Resolved',
         'Website Feedback',
