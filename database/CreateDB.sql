@@ -1,3 +1,14 @@
+/*
+ * CSD 460: Capstone in Software Development
+ * Module 4: Database
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 8/30/2026
+ */
+
 -- ----------------------------------------------------
 -- Creation Database
 -- ----------------------------------------------------
