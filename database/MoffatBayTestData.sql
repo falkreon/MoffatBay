@@ -1,20 +1,8 @@
-/*
- * CSD 460: Capstone in Software Development
- * Module 4: Database
- * Gold Team
- *   Isaac Ellingson
- *   Patrice Moracchini
- *   Cannon Rivera
- *   José Velázquez Sáenz
- * 8/30/2026
- */
-
 USE MoffatBay;
 
 -- ====================================================
 -- TEST DATA FOR MOFFAT BAY DATABASE
 -- ====================================================
-
 
 -- ----------------------------------------------------
 -- Role Test Data
@@ -41,6 +29,7 @@ VALUES
     ('View Contact Messages'),
     ('View Customer Profile'),
     ('Employee Profile View');
+    
 
 
 -- ----------------------------------------------------
@@ -174,59 +163,31 @@ VALUES
 -- RolePermission Test Data
 -- ----------------------------------------------------
 
--- Role IDs
--- 1 = Guest
--- 2 = Customer
--- 3 = Employee
--- 4 = Admin
---
--- Permission IDs
--- 1 = View Reservations
--- 2 = Create Reservations
--- 3 = Edit Reservations
--- 4 = Delete Reservations
--- 5 = View Contact Messages
--- 6 = View Customer Profile
--- 7 = Employee Profile View
-
-
 -- Guest permissions
 INSERT INTO RolePermission (RoleId, PermissionId)
 VALUES
-    (1, 1),  -- View reservations
-    (1, 2);  -- Create reservations
-
-
--- Customer permissions
-INSERT INTO RolePermission (RoleId, PermissionId)
-VALUES
-    (2, 1),  -- View reservations
-    (2, 2),  -- Create reservations
-    (2, 3),  -- Edit reservations
-    (2, 6);  -- View customer profile
+    (1, 1),  -- Guest can view reservations
+    (1, 2);  -- Guest can create reservations
 
 
 -- Employee permissions
 INSERT INTO RolePermission (RoleId, PermissionId)
 VALUES
-    (3, 1),  -- View reservations
-    (3, 2),  -- Create reservations
-    (3, 3),  -- Edit reservations
-    (3, 5),  -- View contact messages
-    (3, 6),  -- View customer profile
-    (3, 7);  -- Employee profile view
+    (2, 1),  -- View reservations
+    (2, 2),  -- Create reservations
+    (2, 3),  -- Edit reservations
+    (2, 5);  -- View contact messages
 
 
 -- Admin permissions
 INSERT INTO RolePermission (RoleId, PermissionId)
 VALUES
-    (4, 1),  -- View reservations
-    (4, 2),  -- Create reservations
-    (4, 3),  -- Edit reservations
-    (4, 4),  -- Delete reservations
-    (4, 5),  -- View contact messages
-    (4, 6),  -- View customer profile
-    (4, 7);  -- Employee profile view
+    (3, 1),  -- View reservations
+    (3, 2),  -- Create reservations
+    (3, 3),  -- Edit reservations
+    (3, 4),  -- Delete reservations
+    (3, 5),  -- View contact messages
+    (3, 6);  -- Manage users
 
 
 -- ====================================================
