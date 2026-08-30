@@ -58,9 +58,9 @@ $db = new ReadWriteCapability();
 
 	$result = $db->authenticateUser('foo@example.com', 'password');
 	if ($result === false) {
-		echo('USER WAS NOT AUTHORIZED');
+		echo('USER WAS NOT AUTHENTICATED');
 	} else {
-		echo('Authorized User:' . PHP_EOL);
+		echo('Authenticated User:' . PHP_EOL);
 		print_r($result);
 	}
 }
