@@ -10,6 +10,12 @@
  */
 
 USE MoffatBay;
+DELETE FROM RolePermission;
+DELETE FROM ContactMessage;
+DELETE FROM Reservation;
+DELETE FROM `User`;
+DELETE FROM Permission;
+DELETE FROM Role;
 
 -- ====================================================
 -- TEST DATA FOR MOFFAT BAY DATABASE
