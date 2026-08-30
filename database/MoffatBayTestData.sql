@@ -26,27 +26,27 @@ DELETE FROM Role;
 -- Role Test Data
 -- ----------------------------------------------------
 
-INSERT INTO Role (Name)
+INSERT INTO Role (Id, Name)
 VALUES
-    ('Guest'),
-    ('Customer'),
-    ('Employee'),
-    ('Admin');
+    (1, 'Guest'),
+    (2, 'Customer'),
+    (3, 'Employee'),
+    (4, 'Admin');
 
 
 -- ----------------------------------------------------
 -- Permission Test Data
 -- ----------------------------------------------------
 
-INSERT INTO Permission (Name)
+INSERT INTO Permission (Id, Name)
 VALUES
-    ('View Reservations'),
-    ('Create Reservations'),
-    ('Edit Reservations'),
-    ('Delete Reservations'),
-    ('View Contact Messages'),
-    ('View Customer Profile'),
-    ('Employee Profile View');
+    (1, 'View Reservations'),
+    (2, 'Create Reservations'),
+    (3, 'Edit Reservations'),
+    (4, 'Delete Reservations'),
+    (5, 'View Contact Messages'),
+    (6, 'View Customer Profile'),
+    (7, 'Employee Profile View');
 
 
 -- ----------------------------------------------------
@@ -59,9 +59,10 @@ VALUES
 -- instead of plain-text passwords.
 
 INSERT INTO `User`
-    (Email, FirstName, LastName, PasswordHash, RoleId)
+    (Id, Email, FirstName, LastName, PasswordHash, RoleId)
 VALUES
     (
+        1,
         'john.smith@gmail.com',
         'John',
         'Smith',
@@ -69,6 +70,7 @@ VALUES
         2
     ),
     (
+        2,
         'sarah.johnson@gmail.com',
         'Sarah',
         'Johnson',
@@ -76,6 +78,7 @@ VALUES
         3
     ),
     (
+        3,
         'michael.admin@gmail.com',
         'Michael',
         'Anderson',
@@ -90,6 +93,7 @@ VALUES
 
 INSERT INTO Reservation
     (
+        Id,
         UserId,
         ConfirmationNumber,
         RoomType,
@@ -102,6 +106,7 @@ INSERT INTO Reservation
 VALUES
     (
         1,
+        1,
         'MBR-100001',
         'double full beds',
         '2026-09-10',
@@ -112,6 +117,7 @@ VALUES
     ),
     (
         2,
+        2,
         'MBR-100002',
         'queen',
         '2026-10-05',
@@ -121,6 +127,7 @@ VALUES
         'Guest requests a room with a bay view.'
     ),
     (
+        3,
         3,
         'MBR-100003',
         'double queen beds',
@@ -138,6 +145,7 @@ VALUES
 
 INSERT INTO ContactMessage
     (
+        Id,
         UserId,
         FullName,
         Email,
@@ -149,6 +157,7 @@ INSERT INTO ContactMessage
 VALUES
     (
         1,
+        1,
         'John Smith',
         'john.smith@gmail.com',
         '555-123-4567',
@@ -158,6 +167,7 @@ VALUES
     ),
     (
         2,
+        2,
         'Sarah Johnson',
         'sarah.johnson@gmail.com',
         '555-234-5678',
@@ -166,6 +176,7 @@ VALUES
         'Are there any family suites available during the first week of December?'
     ),
     (
+        3,
         3,
         'Michael Anderson',
         'michael.admin@gmail.com',
