@@ -4,4 +4,6 @@
 # LibreOffice lockfiles
 .~lock.*
 
-# More to come when we know whether we're using java or php
+# .ini files that may be user data
+*.ini
+
