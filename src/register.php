@@ -59,7 +59,7 @@
 	<section>
 		<h1>Create an Account</h1>
 		<p>(or <a href="login.php">Log In</a> instead)
-		<div class="form-2col">
+		<form class="form-2col" method="GET" action="do_register.php">
 			<p><label for="email">Email Address</label>
 			<!-- Extremely simple and permissive email regex: -->
 			<!-- ^[^\s@]+@[^\s@]+\.[^\s@]+$ -->
@@ -100,7 +100,7 @@
 			<p class="req validation-fail" id="req-low">Must include one lowercase letter
 			<div class="buttons">
 				<input type="button" value="Cancel" id="cancel" onclick="">
-				<input type="button" value="Register" id="register" onclick="" disabled>
+				<input type="submit" value="Register" id="register" onclick="" disabled>
 			</div>
 		</div>
 	</section>
