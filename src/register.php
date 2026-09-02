@@ -1,3 +1,28 @@
+<?php declare(strict_types=1);
+session_start();
+
+/**
+ * CSD460: Capstone in Software Development
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 9/6/2026
+ */
+
+// See logout.php for notes on this block
+$_SESSION = [];
+if (ini_get("session.use_cookies")) {
+	$params = session_get_cookie_params();
+	setcookie(session_name(), '', time() - 42000,
+		$params["path"], $params["domain"],
+		$params["secure"], $params["httponly"]
+	);
+}
+session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +84,7 @@
 	<section>
 		<h1>Create an Account</h1>
 		<p>(or <a href="login.php">Log In</a> instead)
-		<form class="form-2col" method="GET" action="do_register.php">
+		<form class="form-2col" method="POST" action="do_register.php">
 			<p><label for="email">Email Address</label>
 			<!-- Extremely simple and permissive email regex: -->
 			<!-- ^[^\s@]+@[^\s@]+\.[^\s@]+$ -->

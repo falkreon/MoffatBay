@@ -59,13 +59,14 @@ VALUES
 -- instead of plain-text passwords.
 
 INSERT INTO `User`
-    (Id, Email, FirstName, LastName, PasswordHash, RoleId)
+    (Id, Email, FirstName, LastName, PhoneNumber, PasswordHash, RoleId)
 VALUES
     (
         1,
         'john.smith@gmail.com',
         'John',
         'Smith',
+        '(111) 555-1212',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
         2
     ),
@@ -74,6 +75,7 @@ VALUES
         'sarah.johnson@gmail.com',
         'Sarah',
         'Johnson',
+        '(111) 125-4336',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
         3
     ),
@@ -82,6 +84,7 @@ VALUES
         'michael.admin@gmail.com',
         'Michael',
         'Anderson',
+        '(202) 420-1386',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
         4
     );

@@ -37,7 +37,9 @@ class User {
 	public $Email;
 	public $FirstName;
 	public $LastName;
+	public $PhoneNumber;
 	// PasswordHash omitted! We generally don't want to move this value around.
+	public $CreatedAt;
 	public $RoleId;
 }
 
@@ -239,7 +241,8 @@ class ReadWriteCapability extends ReadCapability {
 
 	/**
 	 * Creates the supplied User in the database. Does not do any password validation.
-	 * Ignores the "Id" field of the provided User.
+	 * Ignores the "Id" and "CreatedAt" field of the provided User. These will be automatically
+	 * determined during the insert.
 	 * Returns the userId of the created User.
 	 */
 	function createUser(User $user, #[SensitiveParameter] string $password): int|false {
@@ -247,14 +250,15 @@ class ReadWriteCapability extends ReadCapability {
 		try {
 			$stmt = $this->connection->prepare(
 				<<<SQL
-				INSERT INTO `User`(Email, FirstName, LastName, PasswordHash, RoleId)
-				VALUES(:email, :firstName, :lastName, :passwordHash, :roleId);
+				INSERT INTO `User`(Email, FirstName, LastName, PhoneNumber, PasswordHash, RoleId)
+				VALUES(:email, :firstName, :lastName, :phoneNumber, :passwordHash, :roleId);
 				SQL
 				);
 			$args = [
 				':email' => $user->Email,
 				':firstName' => $user->FirstName,
 				':lastName' => $user->LastName,
+				':phoneNumber' => $user->PhoneNumber,
 				':passwordHash' => $passwordHash,
 				':roleId' => $user->RoleId
 				];
