@@ -36,7 +36,7 @@ function validateFormData(): array|false {
 	if (!preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $_POST['email'])) return false;
 	$user->Email = $_POST['email'];
 
-	if (preg_match('/^(?:\(([0-9]{3})\)[ ]?)|(?:([0-9]{3})[ ]?)?([0-9]{3})[ ]?-?[ ]?([0-9]{4})$/', $_POST['phone'], $matches)) {
+	if (preg_match('/^(?:(?:\(([0-9]{3})\)[ ]?)|(?:([0-9]{3})[ ]?))?([0-9]{3})[ ]?-?[ ]?([0-9]{4})$/', $_POST['phone'], $matches)) {
 		if ($matches[1] === '' && $matches[2] === '') {
 			$areacode = '';
 		} else {
@@ -74,31 +74,59 @@ function validateFormData(): array|false {
 
 
 $form = validateFormData();
-$db = new ReadWriteCapability();
-{
-	$id = $db->createUser($form['user'], $form['password']);
-	if ($id === false) {
-		echo('Failed to create new user!');
-		// TODO: Redirect customer to a useful error page.
-	} else {
-		echo('New User Created: ' . $id);
-		// TODO: Redirect the user to their user-home
-	}
-
-}
-unset($db);
-?>
-<html>
-<body>
-<pre>
-<?php
-$form = validateFormData();
 if ($form) {
-	print_r($form);
+	$db = new ReadWriteCapability();
+	{
+		$id = $db->createUser($form['user'], $form['password']);
+		if ($id === false) {
+			?>
+			<script>
+				window.location.replace("register_error.php");
+			</script>
+			<?php
+		} else {
+			// Set user session - they are now logged in!
+			$_SESSION['user_id'] = $id;
+
+			// TODO: If we make a user-home page, switch this to redirect to it.
+			?>
+
+			<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="utf-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Moffat Bay Lodge - Register</title>
+				<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+				<link rel="stylesheet" href="register.css">
+			</head>
+			<body>
+				<section>
+					<h1>Account Created</h1>
+					<p>Please wait while we redirect you.
+					<div class="buttons">
+						<a class="button callout-button" href="index.php">Continue</a>
+					</div>
+				</section>
+			</body>
+			<script>
+				window.location.replace("index.php");
+			</script>
+			</html>
+
+			<?php
+		}
+
+	}
+	unset($db);
 } else {
-	echo("FALSE");
+	// Form validation failure. Generally the user did something rude here!
+	?>
+	<script>
+		window.location.replace("register_error.php");
+	</script>
+	<?php
 }
 ?>
-</pre>
-</body>
-</html>

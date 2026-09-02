@@ -108,7 +108,7 @@ session_destroy();
 			   ></input>
 			<p><label for="phone">Telephone</label>
 			   <input type="text" name="phone" id="phone"
-			   pattern="(?:\(([0-9]{3})\)[ ]?)|(?:([0-9]{3})[ ]?)?([0-9]{3})[ ]?-?[ ]?([0-9]{4})"
+			   pattern="^(?:(?:\(([0-9]{3})\)[ ]?)|(?:([0-9]{3})[ ]?))?([0-9]{3})[ ]?-?[ ]?([0-9]{4})$"
 			   oninput="updateButton();"
 			   required
 			   ></input>
@@ -124,7 +124,7 @@ session_destroy();
 			<p class="req validation-fail" id="req-upp">Must include one uppercase letter
 			<p class="req validation-fail" id="req-low">Must include one lowercase letter
 			<div class="buttons">
-				<input type="button" value="Cancel" id="cancel" onclick="">
+				<a class="button" href="index.php">Cancel</a>
 				<input type="submit" value="Register" id="register" onclick="" disabled>
 			</div>
 		</div>

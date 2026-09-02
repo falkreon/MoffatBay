@@ -1,3 +1,15 @@
+/*
+ * CSD460: Capstone in Software Development
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 9/2/2026
+ *
+ * CSS Specific to the register, register_error, logout, and do_register pages
+ */
+
 * {
 	box-sizing: border-box;
 	font-family: "Montserrat", sans-serif;
@@ -66,7 +78,13 @@ h1 {
 	padding: 5px;
 }
 
-input[type=button], input[type="submit"] {
+.buttons {
+	display: flex;
+	flex-direction: row;
+
+}
+
+input[type=button], input[type="submit"], .button {
 	display: inline-block;
 	border: 2px solid #84DCCF;
 	font-size: 16pt;
@@ -75,6 +93,14 @@ input[type=button], input[type="submit"] {
 	min-width: 150px;
 	background: #FFFFFF;
 	margin: 24px 12px 6px 12px;
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+	text-align: center;
+}
+
+.callout-button {
+	background: #F57C2F;
 }
 
 .form-2col p input:invalid {
