@@ -49,8 +49,8 @@
 		valid &= document.getElementById("email").checkValidity();
 		valid &= document.getElementById("firstName").checkValidity();
 		valid &= document.getElementById("lastName").checkValidity();
+		valid &= document.getElementById("phone").checkValidity();
 		valid &= document.getElementById("password").checkValidity();
-
 		document.getElementById("register").disabled = !valid;
 	}
 	</script>
@@ -61,7 +61,11 @@
 		<p>(or <a href="login.php">Log In</a> instead)
 		<div class="form-2col">
 			<p><label for="email">Email Address</label>
-			<!-- Extremely simple and permissive email regex -->
+			<!-- Extremely simple and permissive email regex: -->
+			<!-- ^[^\s@]+@[^\s@]+\.[^\s@]+$ -->
+
+			<!-- Nonworking - Attempted to use a more robust regex, which fails in-browser but not in regexr: -->
+			<!-- (?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|&quot;(?:[!#$%&'*+/=?^_`{|}~\-\x20-\x7E]|\\[!#$%&'*+/=?^_`{|}~\-\x20-\x7E])*&quot;)@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])? -->
 			   <input type="text" name="email" id="email"
 			   pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 			   oninput="updateButton();"
@@ -79,6 +83,7 @@
 			   ></input>
 			<p><label for="phone">Telephone</label>
 			   <input type="text" name="phone" id="phone"
+			   pattern="(?:\(([0-9]{3})\)[ ]?)|(?:([0-9]{3})[ ]?)?([0-9]{3})[ ]?-?[ ]?([0-9]{4})"
 			   oninput="updateButton();"
 			   required
 			   ></input>
