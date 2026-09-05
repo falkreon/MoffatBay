@@ -100,19 +100,19 @@ if ($form) {
 				<link rel="preconnect" href="https://fonts.googleapis.com">
 				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 				<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-				<link rel="stylesheet" href="register.css">
+				<link rel="stylesheet" href="login.css">
 			</head>
 			<body>
 				<section>
 					<h1>Account Created</h1>
 					<p>Please wait while we redirect you.
 					<div class="buttons">
-						<a class="button callout-button" href="index.php">Continue</a>
+						<a class="button callout-button" href="user_home.php">Continue</a>
 					</div>
 				</section>
 			</body>
 			<script>
-				window.location.replace("index.php");
+				window.location.replace("user_home.php");
 			</script>
 			</html>
 

@@ -48,6 +48,8 @@ try {
 	<link rel="stylesheet" href="login.css">
 </head>
 <body>
+	<?php require 'header.php'; ?>
+	<div class="center">
 	<section>
 		<h1>Welcome, <?php echo htmlspecialchars($user->FirstName, ENT_QUOTES, 'UTF-8'); ?>!</h1>
 		<p>You are logged in to your Moffat Bay Lodge account.</p>
@@ -55,8 +57,9 @@ try {
 
 		<div class="home-actions">
 			<a class="button" href="logout.php">Log Out</a>
-			<a class="button callout-button" href="index.html">Moffat Bay Lodge</a>
+			<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
 		</div>
 	</section>
+	</div>
 </body>
 </html>

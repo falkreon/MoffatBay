@@ -41,7 +41,7 @@ Landing Page
 
 	<body>
 	<a name='top'></a>
-	<?php require 'header.php'; ?>	
+	<?php require 'header.php'; ?>
 		<section class="landing">
 			<h1>Moffat Bay Lodge</h1>
 		</section>
@@ -66,7 +66,7 @@ Landing Page
 
 			<?php
 			if (is_user_logged_in()) { ?>
-				<a href="reservation.php" 
+				<a href="reservation.php"
 					class="book-your-vacation">Book Your Vacation Today.
 				</a>
 			<?php } else { ?>
