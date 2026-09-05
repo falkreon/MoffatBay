@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);  
-	session_start();
+session_start();
+
+function is_user_logged_in() { 
+	return (isset($_SESSION['user_id']) && !empty($_SESSION['user_id']));
+			}
+
 ?>
 <!--
 CSD460: Capstone in Software Development
@@ -10,7 +15,7 @@ Gold Team
 	Patrice Moracchini
 	Cannon Rivera
 	José Velázquez Sáenz
-
+9/6/2026
 
 Landing Page 
 
@@ -35,15 +40,30 @@ Landing Page
 	</head>
 
 	<body>
-	<?php require_once 'header.php'; ?>	
+	<?php require 'header.php'; ?>	
 		<section class="landing" id="top">
 			<h1>Moffat Bay Lodge</h1>
+		</section>
+
+		<section class="content">
+			<h2>Welcome to Moffat Bay Lodge</h2>
+			<p>	Experience the beauty of nature and the comfort of our lodge.<br>
+				Whether you're looking for adventure or relaxation, 
+				Moffat Bay Lodge has something for everyone.</p>
+			<!-- source: https://pixels.com/featured/lime-kiln-point-state-park-sunset-near-port-angeles-wa-howard-snyder.html -->
+			<img src="pictures/lime-kiln-point.jpg" alt="Lime Kiln Point State Park Sunset">
+		</section>
+
+		<section class="lodge">
+			<h2> Our Lodge</h2>
+			<p> We offer everything for a comfortable and quiet stay, and if you prefer to enjoy the scenery and the animal life,<br>
+				we provide attractions that will enhance your trip. </p>
+			<!--sources:Vrbo. (n.d.). Lopez Legacy Lodge overlooking the beautiful 
+			San Juan waters! [Photographs]. Retrieved September 2, 2026, 
+			from https://www.vrbo.com/3937680 -->
+			<img src="pictures/Lodge_back_view.jpg" alt="Back view of the lodge">
 
 			<?php
-			function is_user_logged_in() { 
-				return (isset($_SESSION['user_id']) && !empty($_SESSION['user_id']));
-			}
-
 			if (is_user_logged_in()) { ?>
 				<a href="reservation.php" 
 					class="book-your-vacation">Book Your Vacation Today.
@@ -53,38 +73,6 @@ Landing Page
 					class="book-your-vacation">Create an Account and Book Your Vacation
 				</a>
 			<?php } ?>
-		</section>
-
-		<section class="content">
-			<h2>Welcome to Moffat Bay Lodge</h2>
-			<p>	Experience the beauty of nature and the comfort of our lodge. 
-				Whether you're looking for adventure or relaxation, 
-				Moffat Bay Lodge has something for everyone.</p>
-		</section>
-
-		<section class="lodge">
-			<div class="lodge-back">
-			<h2> Our Lodge</h2>
-			<p> We offer everything for a comfortable and quiet stay, and if you prefer to enjoy the scenery and the animal life,
-				we provide attractions that will enhance your trip. </p>
-			</div>
-			<div class="lodge-chairs"></div>
-		</section>
-
-		<section class="rooms">
-			
-			<div class="scroll-container">
-				<!-- sources:Vrbo. (n.d.). Lopez Legacy Lodge overlooking the beautiful 
-				San Juan waters! [Photographs]. Retrieved September 2, 2026, 
-				from https://www.vrbo.com/3937680 -->
-  				<img src="Pictures/double_full_bed_room.jpeg" alt="Double Full Bed Room" width="600" height="400">
-  				<img src="Pictures/king_bed_room.jpg" alt="King Bed Room" width="600" height="400">
-  				<img src="Pictures/queen_bed_room.jpeg" alt="Queen Bed Room" width="600" height="400">
-				<img src="Pictures/double_queen_bed_room.jpg" alt="Double Queen Bed Room" width="600" height="400">
-			</div>
-				<h2> Our Rooms</h2>
-			<p> We provide four types of rooms with sea views and forest views, each will bring you a different ambiance and will fulfill your needs.
-				All of our rooms are equipped with modern amenities.</p>
 			
 		</section>
 
@@ -92,14 +80,24 @@ Landing Page
 			<h2> The Marina</h2>
 			<p> Enjoy the magical marina with beautiful views<br> and various nautical activities available 
 				for our guests. </p>
-			
+			<!-- source: San Juan Islands Visitors Bureau. (n.d.). 
+			Roche Harbor Marina [Photographs]. Retrieved September 2, 2026, 
+			from https://www.visitsanjuans.com/account/roche-harbor-marina -->	
+			<img src="pictures/marina.jpeg" alt="Roche Harbor Marina">
+			<a href="marina.php"
+				class="marina-button">Access The Marina</a>
 		</section>
 
 		<section class="attractions">
 			<h2> Attractions</h2>
-			<p> A variety of attractions are available for our guests,
+			<p> A variety of attractions are available for our guests,<br>
 				including hiking, kayaking, whale watching, and scuba diving.</p>
-			<a class="back-to-top" href="#top">Back to top</a>	
+			<!-- source: https://www.whalewatching.com/where-watch-whales/washington-state/ -->
+				<img src="pictures/whale-watching.jpg" alt="Whale Watching">
+				<a href="attractions.php"
+					class="attractions-button">Explore Attractions</a>
+			<a class="back-to-top" href="#top">Back to top</a>
+
 		</section>
 
 	</body>
