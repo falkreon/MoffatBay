@@ -40,6 +40,8 @@ $loginError = isset($_GET['error']) && $_GET['error'] === '1';
 	</script>
 </head>
 <body>
+	<?php require 'header.php'; ?>
+	<div class="center">
 	<section>
 		<h1>Log In</h1>
 		<p>(or <a href="register.php">Create an Account</a> instead)</p>
@@ -70,5 +72,6 @@ $loginError = isset($_GET['error']) && $_GET['error'] === '1';
 			</div>
 		</form>
 	</section>
+	</div>
 </body>
 </html>

@@ -41,7 +41,7 @@ Landing Page
 
 	<body>
 	<a name='top'></a>
-	<?php require 'header.php'; ?>	
+	<?php require 'header.php'; ?>
 		<section class="landing">
 			<h1>Moffat Bay Lodge</h1>
 		</section>

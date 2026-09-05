@@ -81,6 +81,8 @@ session_destroy();
 	</script>
 </head>
 <body>
+	<?php require 'header.php'; ?>
+	<div class="center">
 	<section>
 		<h1>Create an Account</h1>
 		<p>(or <a href="login.php">Log In</a> instead)
@@ -129,5 +131,6 @@ session_destroy();
 			</div>
 		</div>
 	</section>
+	</div>
 </body>
 </html>
