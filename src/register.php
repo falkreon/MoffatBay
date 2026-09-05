@@ -32,7 +32,7 @@ session_destroy();
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="register.css">
+	<link rel="stylesheet" href="login.css">
 	<script>
 	const VALID_FAIL = "validation-fail";
 
@@ -125,7 +125,7 @@ session_destroy();
 			<p class="req validation-fail" id="req-low">Must include one lowercase letter
 			<div class="buttons">
 				<a class="button" href="index.php">Cancel</a>
-				<input type="submit" value="Register" id="register" onclick="" disabled>
+				<input type="submit" class="button callout-button" value="Register" id="register" disabled>
 			</div>
 		</div>
 	</section>

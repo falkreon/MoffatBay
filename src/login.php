@@ -66,7 +66,7 @@ $loginError = isset($_GET['error']) && $_GET['error'] === '1';
 
 			<div class="buttons">
 				<a class="button" href="index.html">Cancel</a>
-				<input type="submit" value="Log In" id="login" disabled>
+				<input type="submit" class="callout-button" value="Log In" id="login" disabled>
 			</div>
 		</form>
 	</section>

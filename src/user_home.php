@@ -55,7 +55,7 @@ try {
 
 		<div class="home-actions">
 			<a class="button" href="logout.php">Log Out</a>
-			<a class="button callout-button" href="index.html">Moffat Bay Lodge</a>
+			<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
 		</div>
 	</section>
 </body>
