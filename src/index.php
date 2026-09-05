@@ -40,8 +40,9 @@ Landing Page
 	</head>
 
 	<body>
+	<a name='top'></a>
 	<?php require 'header.php'; ?>	
-		<section class="landing" id="top">
+		<section class="landing">
 			<h1>Moffat Bay Lodge</h1>
 		</section>
 
@@ -84,7 +85,7 @@ Landing Page
 			Roche Harbor Marina [Photographs]. Retrieved September 2, 2026, 
 			from https://www.visitsanjuans.com/account/roche-harbor-marina -->	
 			<img src="pictures/marina.jpeg" alt="Roche Harbor Marina">
-			<a href="marina.php"
+			<a href="#"
 				class="marina-button">Access The Marina</a>
 		</section>
 
