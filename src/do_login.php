@@ -31,8 +31,6 @@ function validateLoginData(): array|false {
 	if ($email === '') return false;
 	if ($password === '') return false;
 
-	if (!preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $email)) return false;
-
 	return [
 		'email' => $email,
 		'password' => $password
