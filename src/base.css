@@ -1,0 +1,157 @@
+/*
+ * CSD460: Capstone in Software Development
+ * Module 2 Assignment: Moffat Bay Lodge Prototype
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 8/23/2026
+ *
+ * Base CSS declarations for all Moffat Bay Lodge pages
+ */
+
+/* Reset */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+
+/* Site colors & fonts */
+
+:root {
+	--text-color: #000000;
+	--bg-color: #FAF0E4;
+	--callout-color: #F57C2F;
+	--accent-color: #A6D9F7;
+	--accent-gradient: linear-gradient(#A6D9F7, #419fe7);
+	--callout-gradient: linear-gradient(#d39f7f, #F57C2F);
+	--secondary-accent-color: #84DCCF;
+	--secondary-accent-gradient: linear-gradient(#84DCCF, #3ba99c);
+}
+
+html {
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+}
+
+/* Reuseable elements */
+
+header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
+	
+	background-color: var(--accent-color);
+	background-image: var(--accent-gradient);
+	box-shadow: 0px 8px 8px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+		.logo,
+		.user {
+			width: 100%;
+		}
+	}
+
+nav {
+	flex-basis: 60%;
+	flex-grow: 1;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	width: 100%;
+}
+
+nav a {
+	margin: 1rem;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+	text-decoration: none;
+	text-align: center;
+	color: var(--text-color);
+	font-size: clamp(1rem, 1.5vw, 20pt);
+	font-weight: bold;
+}
+
+nav a:hover {
+	color: var(--callout-color);
+}
+
+.logo {
+	width: 250px;
+	min-height: 80px;
+	flex-grow: 0;
+	text-align: center;
+	align-content: center;
+	background: var(--bg-color);
+}
+
+.user {
+	width: 250px;
+	min-height: 80px;
+	flex-grow: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	background: var(--bg-color);
+	padding: 8px;
+}
+
+.user-left {
+	display: flex;
+	flex-direction: column;
+	flex-grow:1;
+	margin-right: 32px;
+}
+
+.username {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 16px;
+}
+
+.user-links {
+	display: flex;
+	flex-direction: row;
+}
+
+.user-links a {
+	flex-grow: 1;
+	text-decoration: none;
+	font-weight: bold;
+	color: var(--text-color);
+}
+
+.user-links a:hover {
+	color: var(--callout-color);
+}
+
+
+.user img {
+	flex-grow: 0;
+	width: 64px;
+	height: 64px;
+	border-radius: 32px;
+}

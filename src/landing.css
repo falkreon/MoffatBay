@@ -1,0 +1,110 @@
+/*
+ * CSD460: Capstone in Software Development
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ *
+ * 8/23/2026
+ * CSS Specific to the Landing Page
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+	background: var(--accent-gradient);
+}
+
+header {
+	min-height: 4rem;
+}
+
+.landing {
+	width: 100%;
+	min-height: 100vh;
+	/* source: https://pixels.com/featured/second-beach-sunset-near-forks-wa-howard-snyder.html */
+	background-image:
+		linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)),
+		url("pictures/second-beach-sunset-near-forks-wa-howard-snyder-140426518.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.landing h1 {
+	text-align: center;
+	color: #FFF;
+	text-shadow: 1px 5px rgba(0,0,0,0.25);
+	-moz-text-fill-color: #fff;
+	-webkit-text-fill-color: #fff;
+	-moz-text-stroke-color: #000;
+	-webkit-text-stroke-color: #000;
+	-moz-text-stroke-width: 3px;
+	-webkit-text-stroke-width: 3px;
+	paint-order: stroke fill;
+	font-size: clamp(2rem, 4vw, 4rem);
+}
+
+.content h2, .lodge h2, .marina h2, .attractions h2 {
+	text-align: center;
+	font-size: clamp(1.75rem, 3vw, 3rem);
+	color: #000000;
+	text-shadow: 1px 5px rgba(0,0,0,0.125);
+	-moz-text-fill-color: #000000;
+	-webkit-text-fill-color: #000000;
+	-moz-text-stroke-color: #000;
+	-webkit-text-stroke-color: #000;	
+}
+
+.content p, .lodge p, .marina p, .attractions p {
+	text-align: center;
+	font-size: clamp(1rem, 2vw, 1.5rem);
+	color: #000000;
+}
+
+.content img, .lodge img, .marina img, .attractions img {
+	display: block;
+	width: 100%;
+	max-width: 1400px;
+	height: auto;
+	margin: 2rem auto 3rem;
+	border: 1px solid black;
+}
+
+.book-your-vacation {
+background: var(--callout-gradient);
+}
+
+.book-your-vacation, .marina-button, .attractions-button {
+	font-size: clamp(10pt, 2vw, 3vw);
+	border: 1px solid black;
+	box-shadow: 0px 8px rgba(0,0,0,0.25);
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	width: fit-content;
+	margin: 1rem auto 3rem;
+	border-radius: 12px;
+	cursor: pointer;
+}
+
+.marina-button, .attractions-button {
+	background: var(--secondary-accent-gradient);
+}
+
+.back-to-top {
+	display: block;
+	width: fit-content;
+	margin: 1rem auto 3rem;
+	color: #000000;
+}
