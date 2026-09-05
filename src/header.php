@@ -14,7 +14,7 @@ declare(strict_types=1);
 <header class="header">
 <div class="logo">
 	<!-- source;"https://pngtree.com/freepng/lighthouse-beach-logo-vector_3642417.html/" modified with Photoshop.-->
-	 <img src="Pictures/MoffatBayLogo.png" alt="Moffat Bay Logo" width="153px" height="120px">
+	 <img src="pictures/MoffatBayLogo.png" alt="Moffat Bay Logo" width="153px" height="120px">
 </div>
 
 			<nav>
