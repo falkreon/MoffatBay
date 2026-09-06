@@ -38,7 +38,7 @@ body {
 	--callout-color: #F57C2F;
 	--accent-color: #A6D9F7;
 	--accent-gradient: linear-gradient(#A6D9F7, #419fe7);
-	--callout-gradient: linear-gradient(#d39f7f, #F57C2F);
+	--callout-gradient: linear-gradient(#f9b285, #F57C2F);
 	--secondary-accent-color: #84DCCF;
 	--secondary-accent-gradient: linear-gradient(#84DCCF, #3ba99c);
 }
