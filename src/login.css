@@ -20,16 +20,20 @@
 	font-style: normal;
 }
 
-.center {
+body {
+	min-height: 100vh;
+	background: var(--accent-color);
 	border: 0;
 	margin: 0;
-	width: 100%;
-	height: 100vh;
-	background: var(--accent-color);
+	padding: 0;
+}
+
+.center {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow: hidden;
+	width: 100%;
+	/*min-height: calc(100vh - 14em);*/
 }
 
 section {
@@ -41,6 +45,9 @@ section {
 	padding-bottom: 6em;
 	border-radius: 6px;
 	box-shadow: 8px 12px rgba(0,0,0,0.08);
+	margin-top: 128px;
+	/*margin: auto auto;*/
+
 }
 
 section > p {

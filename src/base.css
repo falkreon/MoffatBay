@@ -56,9 +56,9 @@ header {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: stretch;
-	
+
 	background-color: var(--accent-color);
 	background-image: var(--accent-gradient);
 	box-shadow: 0px 8px 8px rgba(0,0,0,0.25);
@@ -73,17 +73,16 @@ header {
 
 nav {
 	flex-basis: 60%;
-	flex-grow: 1;
-
+	flex-grow: 100;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
-	width: 100%;
 }
 
 nav a {
 	margin: 1rem;
+
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
@@ -101,21 +100,21 @@ nav a:hover {
 .logo {
 	width: 250px;
 	min-height: 80px;
-	flex-grow: 0;
 	text-align: center;
 	align-content: center;
 	background: var(--bg-color);
+	flex-grow: 1;
 }
 
 .user {
 	width: 250px;
 	min-height: 80px;
-	flex-grow: 0;
 	display: flex;
 	flex-direction: row;
 	justify-content: stretch;
 	background: var(--bg-color);
 	padding: 8px;
+	flex-grow: 1;
 }
 
 .user-left {
