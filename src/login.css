@@ -121,6 +121,10 @@ input[type=button], input[type="submit"], .button {
 	border: 2px solid rgba(0,0,0,0.25);
 }
 
+.validation-fail {
+	background: #FCB;
+}
+
 .login-error {
 	background-color: #FFC0B4;
 	border-radius: 6px;
