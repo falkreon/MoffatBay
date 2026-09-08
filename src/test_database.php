@@ -13,55 +13,21 @@ Gold Team
 
 <pre>
 <?php
+session_start();
 require_once('database_capability.php');
 
 $db = new ReadWriteCapability();
 {
-	$john = $db->getUser(1);
-	print_r($john);
+	$user = $db->getLoggedInUser();
+	if ($user === false) {
+		echo("No Logged-In User");
 
-	echo('<p>');
 
-	$result = $db->getReservation(1);
-	print_r($result);
-
-	echo('<p>');
-
-	$result = $db->getContactMessage(70);
-	print_r($result);
-
-	echo('<p>');
-
-	$result = $db->getPermissions($john);
-	print_r($result);
-
-	echo('<p>');
-
-	$user = new User();
-	$user->Id = NULL;
-	$user->Email = "foo@example.com";
-	$user->FirstName = "Lord";
-	$user->LastName = "Buckethead";
-	$user->RoleId = 1;
-	print_r($user);
-
-	echo('<p>');
-
-	$result = $db->createUser($user, 'password');
-
-	print_r($result);
-	if ($result === FALSE) {
-		echo('RESULT WAS FALSE');
-	}
-
-	echo('<p>');
-
-	$result = $db->authenticateUser('foo@example.com', 'password');
-	if ($result === false) {
-		echo('USER WAS NOT AUTHENTICATED');
 	} else {
-		echo('Authenticated User:' . PHP_EOL);
-		print_r($result);
+		$message = ContactMessage::of($user, "Test Subject", "This is a test message. Please disregard.");
+		$result = $db->createContactMessage($message);
+
+		print_r($result === FALSE ? 'FALSE' : $result);
 	}
 }
 unset($db);
