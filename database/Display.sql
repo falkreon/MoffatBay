@@ -15,6 +15,7 @@ USE MoffatBay;
 
 SELECT * FROM Role;
 SELECT * FROM Permission;
+SELECT * FROM RoomType;
 SELECT * FROM User;
 SELECT * FROM Reservation;
 SELECT * FROM ContactMessage;
