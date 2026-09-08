@@ -14,6 +14,7 @@ DELETE FROM RolePermission;
 DELETE FROM ContactMessage;
 DELETE FROM Reservation;
 DELETE FROM `User`;
+DELETE FROM RoomType;
 DELETE FROM Permission;
 DELETE FROM Role;
 
@@ -48,6 +49,17 @@ VALUES
     (6, 'View Customer Profile'),
     (7, 'Employee Profile View');
 
+-- ----------------------------------------------------
+-- RoomType Test Data
+-- ----------------------------------------------------
+
+INSERT INTO RoomType(Id, Name, MaxGuests, NightlyRate, Active)
+VALUES
+    (1, "Double Full Beds", 2, 126.00, TRUE),
+    (2, "Queen",            2, 141.75, TRUE),
+    (3, "Double Queen",     4, 157.50, TRUE),
+    (4, "King",             2, 168.00, TRUE),
+    (5, "Invalid Test Room",2, 800.00, FALSE);
 
 -- ----------------------------------------------------
 -- User Test Data
@@ -67,7 +79,7 @@ VALUES
         'John',
         'Smith',
         '(111) 555-1212',
-        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
+        '$2y$12$i.DhAICP8XhoVmRCQisJ.eIGwH4o6VbCT/a2LobMYtVab1SjIRBLO',
         2
     ),
     (
@@ -76,7 +88,7 @@ VALUES
         'Sarah',
         'Johnson',
         '(111) 125-4336',
-        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
+        '$2y$12$i.DhAICP8XhoVmRCQisJ.eIGwH4o6VbCT/a2LobMYtVab1SjIRBLO',
         3
     ),
     (
@@ -85,7 +97,7 @@ VALUES
         'Michael',
         'Anderson',
         '(202) 420-1386',
-        '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
+        '$2y$12$i.DhAICP8XhoVmRCQisJ.eIGwH4o6VbCT/a2LobMYtVab1SjIRBLO',
         4
     );
 
@@ -99,7 +111,7 @@ INSERT INTO Reservation
         Id,
         UserId,
         ConfirmationNumber,
-        RoomType,
+        RoomTypeId,
         CheckIn,
         CheckOut,
         GuestCount,
@@ -111,7 +123,7 @@ VALUES
         1,
         1,
         'MBR-100001',
-        'double full beds',
+        1,
         '2026-09-10',
         '2026-09-13',
         2,
@@ -122,7 +134,7 @@ VALUES
         2,
         2,
         'MBR-100002',
-        'queen',
+        2,
         '2026-10-05',
         '2026-10-06',
         2,
@@ -133,7 +145,7 @@ VALUES
         3,
         3,
         'MBR-100003',
-        'double queen beds',
+        3,
         '2026-11-20',
         '2026-11-27',
         4,
@@ -247,15 +259,3 @@ VALUES
     (4, 5),  -- View contact messages
     (4, 6),  -- View customer profile
     (4, 7);  -- Employee profile view
-
-
--- ====================================================
--- OPTIONAL: VERIFY TEST DATA
--- ====================================================
-
-SELECT * FROM Role;
-SELECT * FROM Permission;
-SELECT * FROM `User`;
-SELECT * FROM Reservation;
-SELECT * FROM ContactMessage;
-SELECT * FROM RolePermission;

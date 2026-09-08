@@ -50,13 +50,26 @@ class Reservation {
 	public $Id;
 	public $UserId;
 	public $ConfirmationNumber;
-	public $RoomType;
+	public $RoomTypeId;
 	public $CheckIn;
 	public $CheckOut;
 	public $GuestCount;
 	public $QuotedPrice;
 	public $CreatedAt;
 	public $SpecialRequests;
+}
+
+class RoomType implements Stringable {
+	public $Id = -1;
+	public $Name;
+	public $Description = NULL;
+	public $MaxGuests = 1;
+	public $NightlyRate;
+	public $Active = TRUE;
+
+	public function __toString(): string {
+		return $this->Name;
+	}
 }
 
 /**
@@ -72,6 +85,32 @@ class ContactMessage {
 	public $Status;
 	public $Subject;
 	public $Message;
+
+	/**
+	 * Static factory method. Creates a ContactMessage with user details filled
+	 * in automatically from a User object.
+	 *
+	 * @param User $user
+	 *   The user to fill in details from
+	 * @param string $subject
+	 *   The subject line for this ContactMessage
+	 * @param string $message
+	 *   The message body text for this ContactMessage
+	 *
+	 * @return ContactMessage
+	 *   A ContactMessage with everything filled in.
+	 */
+	public static function of(User $user, string $subject, string $message): ContactMessage {
+		$result = new ContactMessage();
+		$result->UserId = $user->Id;
+		$result->FullName = $user->FirstName . ' ' . $user->LastName;
+		$result->Email = $user->Email;
+		$result->Phone = $user->PhoneNumber;
+		$result->Subject = $subject;
+		$result->Message = $message;
+
+		return $result;
+	}
 }
 
 /**
@@ -110,7 +149,7 @@ class ReadCapability {
 	 */
 	function getUser(int $id): User|false {
 		$stmt = $this->connection->prepare(
-			"SELECT Id, Email, FirstName, LastName, RoleId FROM `User` WHERE `User`.Id = :id;"
+			"SELECT Id, Email, FirstName, LastName, PhoneNumber, RoleId FROM `User` WHERE `User`.Id = :id;"
 			);
 
 		$stmt->execute([':id' => $id]);
@@ -118,6 +157,12 @@ class ReadCapability {
 		$result = $stmt->fetch();
 
 		return $result;
+	}
+
+	function getLoggedInUser(): User|false {
+		if (!isset($_SESSION['user_id'])) return FALSE;
+
+		return $this->getUser((int) $_SESSION['user_id']);
 	}
 
 	function getPermissions(User|int $user): array {
@@ -191,6 +236,70 @@ class ReadCapability {
 	}
 
 	/**
+	 * Gets all Reservations for the user indicated.
+	 *
+	 * @param User|int $user
+	 *   The User to get Reservations for
+	 *
+	 * @return Reservation[]
+	 *   If the User has Reservations, returns an array of Reservation objects. If no
+	 *   Reservations exist for this user, returns an empty array.
+	 */
+	function getReservations(User|int $user): array {
+		$stmt = $this->connection->prepare(
+			"SELECT * FROM Reservation WHERE Reservation.UserId = :id;"
+			);
+
+		$args = [':id' => ($user instanceof User) ? $user->Id : $user];
+		$stmt->execute($args);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Reservation');
+		$result = $stmt->fetchAll();
+
+		return is_array($result) ? $result : [];
+	}
+
+	/**
+	 * Gets a RoomType by its Id.
+	 *
+	 * @param int Id
+	 *   The Id of the RoomType to retrieve
+	 *
+	 * @return RoomType|false
+	 *   If the RoomType can be found, returns it as an object. If none was found,
+	 *   returns false.
+	 */
+	function getRoomType(int $id): RoomType|false {
+		$stmt = $this->connection->prepare(
+			"SELECT * FROM RoomType WHERE RoomType.Id = :id;"
+			);
+
+		$stmt->execute([':id' => $id]);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'RoomType');
+		$result = $stmt->fetch();
+
+		return $result;
+	}
+
+	/**
+	 * Gets all RoomTypes
+	 */
+	function getRoomTypes(bool $includeInactive = FALSE): array {
+		if ($includeInactive) {
+			$stmt = $this->connection->prepare("SELECT * FROM RoomType;");
+		} else {
+			$stmt = $this->connection->prepare(
+				"SELECT * FROM RoomType WHERE Active;"
+				);
+		}
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'RoomType');
+		$result = $stmt->fetchAll();
+
+		return is_array($result) ? $result : [];
+	}
+
+
+	/**
 	 * Gets a ContactMessage by its Id.
 	 *
 	 * @param int $id
@@ -209,6 +318,33 @@ class ReadCapability {
 		$result = $stmt->fetch();
 
 		return $result;
+	}
+
+	/**
+	 * Gets all ContactMessages.
+	 *
+	 * @param bool $includeResolved
+	 *   When TRUE, includes ContactMessages that have already been marked as resolved.
+	 *   Defaults to FALSE.
+	 *
+	 * @return ContactMessage[]
+	 *   Returns an array of ContactMessage objects. If there are no messages, returns
+	 *   an empty array.
+	 */
+	function getContactMessages(bool $includeResolved = FALSE): array {
+		if ($includeResolved) {
+			$stmt = $this->connection->prepare("SELECT * FROM ContactMessage;");
+		} else {
+			$stmt = $this->connection->prepare(
+				"SELECT * FROM ContactMessage WHERE Status != 'Resolved';"
+				);
+		}
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'ContactMessage');
+		$result = $stmt->fetchAll();
+
+		return is_array($result) ? $result : [];
+
 	}
 
 
@@ -243,7 +379,12 @@ class ReadWriteCapability extends ReadCapability {
 	 * Creates the supplied User in the database. Does not do any password validation.
 	 * Ignores the "Id" and "CreatedAt" field of the provided User. These will be automatically
 	 * determined during the insert.
-	 * Returns the userId of the created User.
+	 *
+	 * @param User   $user     The User to create
+	 * @param string $password The password to set for the new user
+	 *
+	 * @return int
+	 *   The userId of the created User. If there was a problem creating the user, FALSE is returned.
 	 */
 	function createUser(User $user, #[SensitiveParameter] string $password): int|false {
 		$passwordHash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
@@ -269,6 +410,91 @@ class ReadWriteCapability extends ReadCapability {
 		} catch (Exception $e) {
 			return FALSE;
 		}
+	}
+
+	/**
+	 * Creates a new reservation.
+	 * Ignores the "Id" and "CreatedAt" fields of the provided Reservation. These will be
+	 * automatically determined during the insert.
+	 *
+	 * @param Reservation $reservation The Reservation to create.
+	 *
+	 * @return int|false
+	 *   If the reservation was successfully created, returns its new Id. If a problem occurred,
+	 *   FALSE is returned.
+	 */
+	function createReservation(Reservation $reservation): int|false {
+		try {
+			$stmt = $this->connection->prepare(
+				<<<SQL
+				INSERT INTO Reservation(
+					UserId, ConfirmationNumber, RoomTypeId, CheckIn, CheckOut, GuestCount,
+					QuotedPrice, SpecialRequests
+				)
+				VALUES(
+					:userId, :confirmationNumber, :roomTypeId, :checkIn, :checkOut, :guestCount,
+					:quotedPrice, :specialRequests
+				);
+				SQL
+				);
+			$args = [
+				':userId' => $reservation->UserId,
+				':confirmationNumber' => $reservation->ConfirmationNumber,
+				':roomTypeId' => $reservation->RoomTypeId,
+				':checkIn' => $reservation->CheckIn,
+				':checkOut' => $reservation->CheckOut,
+				':guestCount' => $reservation->GuestCount,
+				':quotedPrice' => $reservation->QuotedPrice,
+				':specialRequests' => $reservation->SpecialRequests
+				];
+
+			$result = $stmt->execute($args);
+
+			return ($result === FALSE) ? FALSE : (int) $this->connection->lastInsertId();
+		} catch (Exception $e) {
+			return FALSE;
+		}
+	}
+
+	/*
+	 * Creates a new ContactMessage in the database to represent a form submission.
+	 * Ignores the "Id", "CreatedAt", and "Status" fields of the provided object.
+	 * These will be automatically determined during the insert.
+	 *
+	 * @param ContactMessage $message The ContactMessage to create.
+	 *
+	 * @return int|false
+	 *   If the ContactMessage was successfully created, returns its new Id. If not, returns FALSE.
+	 */
+	function createContactMessage(ContactMessage $message): int|FALSE {
+		try {
+			$stmt = $this->connection->prepare(
+				<<<SQL
+				INSERT INTO ContactMessage(
+					UserId, FullName, Email, Phone, Subject, Message
+				)
+				VALUES(
+					:userId, :fullName, :email, :phone, :subject, :message
+				);
+				SQL
+				);
+			$args = [
+				':userId' => $message->UserId,
+				':fullName' => $message->FullName,
+				':email' => $message->Email,
+				':phone' => $message->Phone,
+				':subject' => $message->Subject,
+				':message' => $message->Message
+				];
+
+			$result = $stmt->execute($args);
+
+			return ($result === FALSE) ? FALSE : (int) $this->connection->lastInsertId();
+		} catch (Exception $e) {
+			print_r($e);
+			return FALSE;
+		}
+
 	}
 }
 

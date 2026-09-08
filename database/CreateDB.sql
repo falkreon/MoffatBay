@@ -10,21 +10,11 @@
  */
 
 -- ----------------------------------------------------
--- Creation Database
+-- Create Database
 -- ----------------------------------------------------
-CREATE DATABASE IF NOT EXISTS MoffatBay;
+DROP DATABASE IF EXISTS MoffatBay;
+CREATE DATABASE MoffatBay;
 USE MoffatBay;
-
--- ----------------------------------------------------
--- Dropping Existing Tables
--- ----------------------------------------------------
-
-DROP TABLE IF EXISTS RolePermission;
-DROP TABLE IF EXISTS ContactMessage;
-DROP TABLE IF EXISTS Reservation;
-DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS Permission;
-DROP TABLE IF EXISTS Role;
 
 -- ----------------------------------------------------
 -- Reference Tables
@@ -40,6 +30,15 @@ CREATE TABLE Role (
 CREATE TABLE Permission (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE RoomType (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL UNIQUE,
+    Description VARCHAR(128) NULL DEFAULT NULL,
+    MaxGuests INT NOT NULL DEFAULT 1,
+    NightlyRate DECIMAL(10,2) NOT NULL,
+    Active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- ----------------------------------------------------
@@ -64,14 +63,15 @@ CREATE TABLE Reservation (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     UserId INT NOT NULL,
     ConfirmationNumber VARCHAR(50) NOT NULL UNIQUE,
-    RoomType VARCHAR(50) NOT NULL,
+    RoomTypeId INT NOT NULL,
     CheckIn DATE NOT NULL,
     CheckOut DATE NOT NULL,
     GuestCount INT NOT NULL,
     QuotedPrice DECIMAL(10, 2) NOT NULL,
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     SpecialRequests TEXT NULL,
-    FOREIGN KEY (UserId) REFERENCES User(Id)
+    FOREIGN KEY (UserId) REFERENCES User(Id),
+    FOREIGN KEY (RoomTypeId) REFERENCES RoomType(Id)
 );
 
 -- ContactMessage Table
@@ -82,7 +82,7 @@ CREATE TABLE ContactMessage (
     Email VARCHAR(100) NOT NULL,
     Phone VARCHAR(20) NULL,
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(20) NOT NULL,
+    Status VARCHAR(20) NOT NULL DEFAULT 'New',
     Subject VARCHAR(100) NOT NULL,
     Message TEXT NOT NULL,
     FOREIGN KEY (UserId) REFERENCES User(Id)
