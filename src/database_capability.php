@@ -59,13 +59,17 @@ class Reservation {
 	public $SpecialRequests;
 }
 
-class RoomType {
+class RoomType implements Stringable {
 	public $Id = -1;
 	public $Name;
 	public $Description = NULL;
 	public $MaxGuests = 1;
 	public $NightlyRate;
 	public $Active = TRUE;
+
+	public function __toString(): string {
+		return $this->Name;
+	}
 }
 
 /**

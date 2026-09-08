@@ -18,19 +18,11 @@ require_once('database_capability.php');
 
 $db = new ReadWriteCapability();
 {
-	$user = $db->getLoggedInUser();
-	if ($user === false) {
-		echo("No Logged-In User");
-
-
-	} else {
-		$message = ContactMessage::of($user, "Test Subject", "This is a test message. Please disregard.");
-		$result = $db->createContactMessage($message);
-
-		print_r($result === FALSE ? 'FALSE' : $result);
-	}
+	$roomTypes = $db->getRoomTypes();
 }
 unset($db);
+
+echo(implode(', ', $roomTypes));
 
 ?>
 </pre>
