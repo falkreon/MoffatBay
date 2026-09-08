@@ -452,6 +452,16 @@ class ReadWriteCapability extends ReadCapability {
 		}
 	}
 
+	/*
+	 * Creates a new ContactMessage in the database to represent a form submission.
+	 * Ignores the "Id", "CreatedAt", and "Status" fields of the provided object.
+	 * These will be automatically determined during the insert.
+	 *
+	 * @param ContactMessage $message The ContactMessage to create.
+	 *
+	 * @return int|false
+	 *   If the ContactMessage was successfully created, returns its new Id. If not, returns FALSE.
+	 */
 	function createContactMessage(ContactMessage $message): int|FALSE {
 		try {
 			$stmt = $this->connection->prepare(
