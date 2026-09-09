@@ -20,7 +20,7 @@ declare(strict_types=1);
 	</div>
 
 	<nav>
-		<a href="about.php">About</a>
+		<a href="about_us.php">About</a>
 		<a href="attractions.php">Attractions</a>
 		<a href="reservation.php">Book Your Vacation</a>
 		<a href="contact.php">Contact Us</a>
