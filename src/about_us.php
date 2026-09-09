@@ -76,6 +76,7 @@ session_start();
     		habitat, and dive beneath the surface to explore an incredible underwater world. With so
     		many unforgettable experiences just moments away, every day brings a new adventure.
 		</p>
+		<a href="attractions.php">Learn More</a>
     </div>
     <div class="attraction-image">
 			<img src="pictures/scuba.jpg" alt="Back view of the lodge">
