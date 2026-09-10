@@ -42,48 +42,46 @@ session_start();
  			a family trip, or a relaxing retreat, you'll find comfort and adventure all in one place.
 		</p>
 	</div>
-	<section class="moffat-section">
+	<section>
 
-    <div class="moffat-image">
-			<img src="pictures/Lodge_back_view.jpg" alt="Back view of the lodge">
-    </div>
+		<img src="pictures/Lodge_back_view.jpg" alt="Back view of the lodge">
 
-    <div class="moffat-text">
-        <h2>A Getaway for Every Kind of Traveler</h2>
+		<div class="text">
+			<h2>A Getaway for Every Kind of Traveler</h2>
 
-        <p>
-            No two vacations look the same. Some guests come to explore every trail
-            and stretch of coastline, while others prefer quiet mornings, beautiful
-            views, and time spent with the people who matter most.
-        </p>
+			<p>
+				No two vacations look the same. Some guests come to explore every trail
+				and stretch of coastline, while others prefer quiet mornings, beautiful
+				views, and time spent with the people who matter most.
+			</p>
 
-        <p>
-            Moffat Bay Lodge offers the perfect blend of adventure, comfort, and unforgettable scenery.
-    		Wake up to peaceful waterfront views, spend the day exploring the island, and unwind in a
-    		warm, welcoming lodge surrounded by nature. Whether you're seeking excitement or a quiet
-    		escape, every stay is designed to feel memorable.
-        </p>
-    </div>
+			<p>
+				Moffat Bay Lodge offers the perfect blend of adventure, comfort, and unforgettable scenery.
+				Wake up to peaceful waterfront views, spend the day exploring the island, and unwind in a
+				warm, welcoming lodge surrounded by nature. Whether you're seeking excitement or a quiet
+				escape, every stay is designed to feel memorable.
+			</p>
+		</div>
 
 	</section>
-	<section class="attraction-section">
-	<div class="attraction-text">
-        <h2>Unforgettable Attractions</h2>
+	<section>
+		<img src="pictures/scuba.jpg" alt="Back view of the lodge">
+		<div class="text">
+			<h2>Unforgettable Attractions</h2>
 
-        <p>
-    		Adventure is everywhere at Moffat Bay Lodge. Paddle through crystal-clear coastal waters,
-    		hike scenic trails with breathtaking island views, spot majestic whales in their natural
-    		habitat, and dive beneath the surface to explore an incredible underwater world. With so
-    		many unforgettable experiences just moments away, every day brings a new adventure.
-		</p>
-		<a href="attractions.php">Learn More</a>
-    </div>
-    <div class="attraction-image">
-			<img src="pictures/scuba.jpg" alt="Back view of the lodge">
-    </div>
+			<p>
+				Adventure is everywhere at Moffat Bay Lodge. Paddle through crystal-clear coastal waters,
+				hike scenic trails with breathtaking island views, spot majestic whales in their natural
+				habitat, and dive beneath the surface to explore an incredible underwater world. With so
+				many unforgettable experiences just moments away, every day brings a new adventure.
+			</p>
+			<a href="attractions.php">Learn More</a>
+		</div>
 
-    
+	</section>
 
+	<section class="full">
+		<!-- This section spans the full width of the screen without adopting the left-right pattern. This could be useful for the Contact Us form -->
 	</section>
 	</body>
 
