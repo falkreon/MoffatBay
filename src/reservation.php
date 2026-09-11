@@ -42,6 +42,36 @@ $roomTypes = $database->getRoomTypes();
 		<link rel="stylesheet" href="reservation.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <script>
+            const ROOM_OCCUPANCY = [
+            <?php
+                foreach ($roomTypes as $roomType) {
+                    echo $roomType->MaxGuests . ","; // Trailing commas are allowed in js
+                }
+            ?>
+            ];
+
+            function onSelectRoomType() {
+                let index = document.getElementById("roomtype").selectedIndex - 1;
+                let guestsDropdown = document.getElementById("guest_count");
+                if (index < 0) {
+                    guestsDropdown.replaceChildren();
+                    guestsDropdown.disabled = true;
+                } else {
+                    guestsDropdown.replaceChildren();
+                    let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
+                    for(let i = 0; i<maxGuests; i++) {
+                        // https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
+                        guestsDropdown.add(new Option((i+1) + ' guests'));
+                    }
+
+                    guestsDropdown.disabled = false;
+                }
+
+            }
+        </script>
+
+
 	</head>
 
 	<body>
@@ -76,7 +106,7 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Room size dropdown menu gets the available room types from the database -->
 			<div class="room-size">
 				<h2>Room size</h2>
-				<select name="RoomType" required>
+				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()" required>
 					<option value="">Select a room size</option>
 					<?php
 					foreach ($roomTypes as $roomType) {
@@ -89,12 +119,7 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Number of guests dropdown menu -->
 			<div class ="guests">
 				<h2>Number of guests</h2>
-					<select name="guest_count">
-						<option value="2">2 guests</option>
-						<option value="3">3 guests</option>
-						<option value="4">4 guests</option>
-						<option value="5">5 guests</option>
-						<option value="6">6 guests</option>
+					<select name="guest_count" id="guest_count" disabled>
 					</select>
 			</div>	
 
