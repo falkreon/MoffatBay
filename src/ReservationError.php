@@ -5,7 +5,16 @@ session_start();
 
 $error = $_GET['err'] ?? '';
 ?>
-
+/**
+ * CSD460: Capstone in Software Development
+ * Moffat Bay Lodge
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 9/11/2026
+ */
 <!DOCTYPE html>
 <html lang="en">
 <head>

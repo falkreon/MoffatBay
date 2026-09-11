@@ -10,7 +10,7 @@ session_start();
  *   Patrice Moracchini
  *   Cannon Rivera
  *   José Velázquez Sáenz
- * 9/6/2026
+ * 9/11/2026
  */
 
 require_once('database_capability.php');
