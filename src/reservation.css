@@ -1,0 +1,155 @@
+/* CSD460: Capstone in Software Development
+ * Moffat Bay Lodge
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 9/6/2026
+ */
+ 
+* {
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg-color);
+    margin: 0;
+}
+
+.section-title {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Reservation Section */
+.reservation {
+    position: relative;
+}
+
+.price-rates {
+    width: 100%;
+    padding: 1rem;
+}
+
+.reservation-form {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.section-reservation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    background: var(--accent-color);
+    padding: 1.5em;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 8px 12px rgba(0,0,0,0.25);
+}
+
+/* Room Size and Guests*/
+.room-size, .guests, .reservation-dates {
+    display: flex;
+    flex-direction: column;
+}
+
+.room-size select, .guests select {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+.room-size h2, .guests h2 {
+    margin: 0 0 0.5em;
+    font-size: 1.5rem;
+}
+
+/* Calendar Section */
+.reservation-dates {
+    gap: 1em;
+}
+
+.reservation-dates input {
+    font-size: 1rem;
+}
+
+/* Comments Section */
+.comments {
+    background: var(--secondary-accent-color);
+    padding: 1em;
+    border-radius: 15px;
+    border:1px solid gray;
+}
+
+.comments h2 {
+    margin: -0.5em 0 0.3em;
+    font-size: 1.5rem;
+}
+
+.comments textarea {
+    width: 100%;
+    height: 6em;
+}
+
+/* Reservation Button */
+.reservation-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    margin: 0.5rem 0 2rem auto;
+    padding: 0.75em;
+    font-size: 1rem;
+    border-radius: 6px;
+    background: var(--callout-gradient);
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+/* Media Queries - for larger screens */
+@media (min-width: 768px) {
+
+    .price-rates {
+        position: absolute;
+        left: 40%;
+        margin-left: -600px;
+        top: 1rem;
+        width: 250px;
+    }
+
+    .section-reservation-form {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        max-width: 700px;
+    }
+
+    .room-size, .reservation-dates{
+        grid-column: 1;
+    }
+
+    .guests {
+        grid-column: 2;
+    }
+
+    .reservation-dates input {
+        width: 220px;
+        padding: 0.5em;
+        font-size: 1rem;
+        border-radius: 6px;
+    }
+
+    .calendar {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .comments {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+}
