@@ -106,7 +106,7 @@ session_start();
 
 			<div class="contact-form-container">
 
-				<form class="contact-form" method="post" action="submitContactForm()">
+				<form class="contact-form" method="post" action="contact.php">
 
 					<div class="form-group form-name">
 						<label class="form-label" for="name">
@@ -135,6 +135,7 @@ session_start();
 							id="email"
 							name="email"
 							placeholder="Enter your email"
+							pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 							required
 						>
 					</div>
