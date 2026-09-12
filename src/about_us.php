@@ -79,10 +79,130 @@ session_start();
 		</div>
 
 	</section>
+	<section class="contact-section">
 
-	<section class="full">
-		<!-- This section spans the full width of the screen without adopting the left-right pattern. This could be useful for the Contact Us form -->
+		<div class="contactform">
+
+			<h2 class="contact-title">Contact Us</h2>
+
+			<div class="contact-info">
+
+				<p class="contact-info-item">
+					Email us here >
+					<a class="contact-link" href="mailto:moffatbay@outlook.com">
+						moffatbay@outlook.com
+					</a>
+				</p>
+
+				<p class="contact-info-item">
+					Or call us @
+					<a class="contact-link" href="tel:6414444444">
+						641-444-4444
+					</a>
+				</p>
+
+		</div>
+
+
+			<div class="contact-form-container">
+
+				<form class="contact-form" method="post" action="submitContactForm()">
+
+					<div class="form-group form-name">
+						<label class="form-label" for="name">
+							Full Name:
+						</label>
+
+						<input
+							class="form-input"
+							type="text"
+							id="name"
+							name="name"
+							placeholder="Enter your full name"
+							required
+						>
+					</div>
+
+
+					<div class="form-group form-email">
+						<label class="form-label" for="email">
+							Email Address:
+						</label>
+
+						<input
+							class="form-input"
+							type="email"
+							id="email"
+							name="email"
+							placeholder="Enter your email"
+							required
+						>
+					</div>
+
+
+					<div class="form-group form-phone">
+						<label class="form-label" for="phone">
+							Phone Number:
+						</label>
+
+						<input
+							class="form-input"
+							type="tel"
+							id="phone"
+							name="phone"
+							placeholder="123-456-7890"
+						>
+					</div>
+
+
+					<div class="form-group form-subject">
+						<label class="form-label" for="subject">
+							Subject:
+						</label>
+
+						<input
+							class="form-input"
+							type="text"
+							id="subject"
+							name="subject"
+							placeholder="What is your question about?"
+							required
+						>
+					</div>
+
+
+					<div class="form-group form-message">
+						<label class="form-label" for="message">
+							Message:
+						</label>
+
+						<textarea
+							class="form-textarea"
+							id="message"
+							name="message"
+							rows="6"
+							placeholder="Enter your question or message here..."
+							required
+						></textarea>
+					</div>
+
+
+					<div class="form-submit">
+						<button
+							class="contact-submit-button"
+							type="submit"
+						>
+							Send Message
+						</button>
+					</div>
+
+				</form>
+
+			</div>
+
+		</div>
+
 	</section>
 	</body>
-
+	
 </html>
