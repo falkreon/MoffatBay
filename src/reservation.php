@@ -126,10 +126,10 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Check-in and check-out dates boxes -->
 			<div class="reservation-dates">
 				<label for="checkinDate">Check-in Date</label>
-				<input type="date" id="checkinDate" name="check_in" required>
+				<input type="date" id="checkinDate" name="check_in" readonly required>
 
 				<label for="checkoutDate">Check-out Date</label>
-				<input type="date" id="checkoutDate" name="check_out" required>
+				<input type="date" id="checkoutDate" name="check_out" readonly required>
 			</div>
 
 			<!-- Calendar for selecting reservation dates. I used Flatpickr instead of CalendarJS

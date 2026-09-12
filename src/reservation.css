@@ -112,7 +112,7 @@ body {
 }
 
 /* Media Queries - for larger screens */
-@media (min-width: 768px) {
+@media (min-width: 1460px) {
 
     .price-rates {
         position: absolute;
