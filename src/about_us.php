@@ -11,6 +11,14 @@ session_start();
  *   José Velázquez Sáenz
  * 9/6/2026
  */
+require_once('database_capability.php');
+$loggedInUser = false;
+
+if (isset($_SESSION['user_id'])) {
+    $dbRead = new ReadCapability();
+    $loggedInUser = $dbRead->getLoggedInUser();
+    unset($dbRead);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,6 +127,13 @@ session_start();
 							id="name"
 							name="name"
 							placeholder="Enter your full name"
+							value="<?php
+            							if ($loggedInUser !== false) {
+                							echo htmlspecialchars(
+                    						$loggedInUser->FirstName . ' ' . $loggedInUser->LastName
+                						);
+            							}
+        							?>"
 							required
 						>
 					</div>
@@ -135,6 +150,11 @@ session_start();
 							id="email"
 							name="email"
 							placeholder="Enter your email"
+							value="<?php
+										if ($loggedInUser !== false) {
+											echo htmlspecialchars($loggedInUser->Email);
+										}
+									?>"
 							pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 							required
 						>
@@ -165,7 +185,7 @@ session_start();
 							class="form-input"
 							type="text"
 							id="subject"
-							name="subject"
+							name="subject"							
 							placeholder="What is your question about?"
 							required
 						>
