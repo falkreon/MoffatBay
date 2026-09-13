@@ -7,3 +7,5 @@
 # .ini files that may be user data
 *.ini
 
+# IDE files
+.idea
