@@ -24,6 +24,9 @@ if ($loggedInUser === false) {
 	}
 // Get the available room types from the database.
 $roomTypes = $database->getRoomTypes();
+
+// error handling for reservation form submission
+$reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +109,7 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Room size dropdown menu gets the available room types from the database -->
 			<div class="room-size">
 				<h2>Room size</h2>
-				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()" required>
+				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()">
 					<option value="">Select a room size</option>
 					<?php
 					foreach ($roomTypes as $roomType) {
@@ -119,17 +122,22 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Number of guests dropdown menu -->
 			<div class ="guests">
 				<h2>Number of guests</h2>
-					<select name="guest_count" id="guest_count" disabled required>
+					<select name="guest_count" id="guest_count" disabled>
 					</select>
 			</div>	
 
 			<!-- Check-in and check-out dates boxes -->
 			<div class="reservation-dates">
 				<label for="checkinDate">Check-in Date</label>
-				<input type="date" id="checkinDate" name="check_in" readonly required>
+				<input type="date" id="checkinDate" name="check_in" readonly>
 
 				<label for="checkoutDate">Check-out Date</label>
-				<input type="date" id="checkoutDate" name="check_out" readonly required>
+				<input type="date" id="checkoutDate" name="check_out" readonly>
+
+				<!-- Display an error message if the reservation form was not filled out correctly -->
+				<?php if ($reservationError) { ?>
+					<p class="reservation-error" role="alert">The reservation form was not filled out correctly. Please review.</p>
+				<?php } ?>
 			</div>
 
 			<!-- Calendar for selecting reservation dates. I used Flatpickr instead of CalendarJS

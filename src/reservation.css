@@ -78,6 +78,13 @@ body {
     font-size: 1rem;
 }
 
+.reservation-error {
+	background-color: #FFC0B4;
+	border-radius: 6px;
+	padding: 10px;
+	font-weight: 600;
+}
+
 /* Comments Section */
 .comments {
     background: var(--secondary-accent-color);

@@ -23,33 +23,33 @@ $database = new ReadWriteCapability();
 
 // Ensure the request method is POST before proceeding with reservation summary processing.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location:reservation.php');
+    header('Location:reservation.php?error=1');
     exit;
 }
     // roomType validation
     if (empty($_POST['RoomType'])) {
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
     $roomTypeId = (int) $_POST['RoomType'];
     $selectedRoomType = $database->getRoomType($roomTypeId);
 
     if ($selectedRoomType === false) {
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
 
     // guest count validation
     $guestCount = (int)$_POST['guest_count'];
     if ($guestCount < 1 || $guestCount > $selectedRoomType->MaxGuests){
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
 
     // check-in and check-out date validation and ensure the check-out date is after the check-in date,
     // and also not the same day.
     if (empty($_POST['check_in']) || empty($_POST['check_out'])) {
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
     $checkIn = $_POST['check_in'];
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $checkOutDate = new DateTime($checkOut);
 
     if ($checkOutDate <= $checkInDate) {
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $numberOfNights = $checkOutDate->diff($checkInDate)->days;
 
     if ($numberOfNights < 1) {
-        header('Location: reservation.php');
+        header('Location: reservation.php?error=1');
         exit;
     }
 
