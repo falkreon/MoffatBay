@@ -1,0 +1,101 @@
+/* CSD460: Capstone in Software Development
+ * Moffat Bay Lodge
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ * 9/11/2026
+ */
+
+* {
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg-color);
+    margin: 0;
+}
+
+.section-title {
+    text-align: center;
+    margin: 20px 1rem;
+}
+
+.confirmation-message {
+    text-align: center;
+    margin: 20px 1rem 40px;
+}
+
+.confirmation-message p {
+    margin: 0;
+}
+
+.reservation-summary {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.reservation-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background: var(--secondary-accent-gradient);
+    padding: 1.5em;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 8px 12px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.reservation-details p {
+    margin: 0;
+}
+
+/* Button */
+.lookup-button {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto 2rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.lookup-button a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    background: var(--callout-gradient);
+    color: black;
+    padding: 0.75em 1.5em;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 4px 5px rgba(0,0,0,0.25);
+}
+
+/* Larger screens */
+@media (min-width: 1460px) {
+
+    .reservation-summary {
+        padding: 0;
+    }
+
+    .reservation-details {
+        padding: 2em 1.5em;
+    }
+
+    .lookup-button {
+        padding: 0;
+    }
+
+    .lookup-button a {
+        display: inline-block;
+        width: auto;
+    }
+}
