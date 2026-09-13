@@ -21,29 +21,64 @@ if (!isset($_SESSION['user_id'])) {
 require_once('database_capability.php');
 $database = new ReadWriteCapability();
 
+// Ensure the request method is POST before proceeding with reservation summary processing.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location:reservation.php');
     exit;
 }
-    // Retrieve and process the submitted reservation data coming from the form.
+    // roomType validation
+    if (empty($_POST['RoomType'])) {
+        header('Location: reservation.php');
+        exit;
+    }
     $roomTypeId = (int) $_POST['RoomType'];
-    $guestCount = (int)$_POST['guest_count'];
-    $checkIn = $_POST['check_in'];
-    $checkOut = $_POST['check_out'];
-    $comments = $_POST['comments'];
-    // Get the selected room type details from the database.
     $selectedRoomType = $database->getRoomType($roomTypeId);
-    // Convert the dates strings to DateTime objects for calculation.
+
+    if ($selectedRoomType === false) {
+        header('Location: reservation.php');
+        exit;
+    }
+
+    // guest count validation
+    $guestCount = (int)$_POST['guest_count'];
+    if ($guestCount < 1 || $guestCount > $selectedRoomType->MaxGuests){
+        header('Location: reservation.php');
+        exit;
+    }
+
+    // check-in and check-out date validation and ensure the check-out date is after the check-in date,
+    // and also not the same day.
+    if (empty($_POST['check_in']) || empty($_POST['check_out'])) {
+        header('Location: reservation.php');
+        exit;
+    }
+    $checkIn = $_POST['check_in'];
     $checkInDate = new DateTime($checkIn);
+
+    $checkOut = $_POST['check_out'];
     $checkOutDate = new DateTime($checkOut);
-    // Calculate the number of nights for the reservation.
+
+    if ($checkOutDate <= $checkInDate) {
+        header('Location: reservation.php');
+        exit;
+    }
+
+    // Retrieve any special requests or comments from the user.
+    $comments = $_POST['comments'];
+
+    // Calculate the number of nights for the reservation and ensure it is at least one night.
     $numberOfNights = $checkOutDate->diff($checkInDate)->days;
-    // Calculate the total cost of the reservation.
+
+    if ($numberOfNights < 1) {
+        header('Location: reservation.php');
+        exit;
+    }
+
+    // Re-calculate the total cost.
     $totalCost = $numberOfNights * $selectedRoomType->NightlyRate;
-    // Create a new reservation object and populate it with the submitted data.
-    $reservation = new Reservation();
-    // Assign the submitted data to the reservation object.
-     
+    
+    //Making a new reservation object with the filled out details from the form.
+    $reservation = new Reservation(); 
     $reservation->UserId = (int) $_SESSION['user_id'];
     $reservation->RoomTypeId = $roomTypeId;
     $reservation->GuestCount = $guestCount;
@@ -106,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 <p><strong>Number of Nights:</strong> <?php echo($numberOfNights); ?></p>
                 <p><strong>Number of Guests:</strong> <?php echo($guestCount); ?></p>
                 <br>
-                <p><strong>Total Cost:</strong> $<?php echo (number_format((float)$totalCost, 2)); ?></p>
+                <p><strong>Total Cost:</strong> $<?php echo(number_format((float)$totalCost, 2)); ?></p>
                 <br>
-                <!-- Display special requests if any -->
+                <!-- Display special requests if any, htmlspecialchars is used to prevent XSS -->
                 <?php if (!empty($comments)) : ?>
                     <p><strong>Comments:</strong> <?php echo htmlspecialchars($comments); ?></p>
                 <?php endif; ?>

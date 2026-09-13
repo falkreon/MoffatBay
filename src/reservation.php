@@ -119,7 +119,7 @@ $roomTypes = $database->getRoomTypes();
 			<!-- Number of guests dropdown menu -->
 			<div class ="guests">
 				<h2>Number of guests</h2>
-					<select name="guest_count" id="guest_count" disabled>
+					<select name="guest_count" id="guest_count" disabled required>
 					</select>
 			</div>	
 
