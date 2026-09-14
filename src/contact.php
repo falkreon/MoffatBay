@@ -117,4 +117,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</body>
 
 </html>
+<?php else: ?>
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Moffat Bay Lodge</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="base.css?v=20260914">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body class="contact-confirmation-page">
+		<a name="top"></a>
+		<?php require 'header.php'; ?>
+
+		<main class="contact-confirmation-main">
+			<section class="contact-confirmation-heading">
+				<h1>Error: Invalid Entry</h1>
+			</section>
+
+			<section class="contact-confirmation-card">
+				<h3>Message Not Sent</h3>
+				<p>We're sorry, but we could not send your message.</p>
+				<p>Please check your information and try again.</p>
+
+				<a class="contact-confirmation-link" href="about_us.php">Return to Contact Us</a>
+			</section>
+		</main>
+	</body>
+
+</html>
 <?php endif; ?>
