@@ -82,3 +82,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($db);
     }
 }
+?>
+<?php if ($contactSuccess): ?>
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Moffat Bay Lodge</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="base.css?v=20260914">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body class="contact-confirmation-page">
+		<a name="top"></a>
+		<?php require 'header.php'; ?>
+
+		<main class="contact-confirmation-main">
+			<section class="contact-confirmation-heading">
+				<h1>Contact Us Confirmation</h1>
+			</section>
+
+			<section class="contact-confirmation-card">
+				<h3>Message Received</h3>
+				<p>Thank you for contacting Moffat Bay Lodge.</p>
+				<p>We will get back to you as soon as we can.</p>
+
+				<a class="contact-confirmation-link" href="index.php">Return to Homepage</a>
+			</section>
+		</main>
+	</body>
+
+</html>
+<?php endif; ?>
