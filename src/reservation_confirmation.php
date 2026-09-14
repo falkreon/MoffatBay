@@ -32,6 +32,12 @@ if ($reservation === false) {
     header('Location: reservation.php');
     exit;
 }
+
+if ($reservation->UserId != $_SESSION['user_id']) {
+    // User is logged in, but this is not their reservation!
+    header('Location: unauthorized.php');
+    exit;
+}
 // Get the room type details for the reservation.
 $roomType = $database->getRoomType((int) $reservation->RoomTypeId);
 //
