@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 session_start();
 
-$error = $_GET['err'] ?? '';
-?>
 /**
  * CSD460: Capstone in Software Development
  * Moffat Bay Lodge
@@ -15,6 +13,9 @@ $error = $_GET['err'] ?? '';
  *   José Velázquez Sáenz
  * 9/11/2026
  */
+
+$error = $_GET['err'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
