@@ -49,7 +49,11 @@ if (isset($_GET['source'])) {
 	<div class="center">
 	<section>
 		<h1>Log In</h1>
-		<p>(or <a href="register.php">Create an Account</a> instead)</p>
+		<?php if (isset($source)) { ?>
+			<p>(or <a href="register.php?source=<?= $source ?>">Create an Account</a> instead)
+		<?php } else { ?>
+			<p>(or <a href="register.php">Create an Account</a> instead)
+		<?php } ?>
 
 		<?php if ($loginError) { ?>
 			<p class="login-error" role="alert">The username or password is incorrect.</p>
