@@ -77,7 +77,7 @@ CREATE TABLE Reservation (
 -- ContactMessage Table
 CREATE TABLE ContactMessage (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    UserId INT NOT NULL,
+    UserId INT NULL,
     FullName VARCHAR(100) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     Phone VARCHAR(20) NULL,
