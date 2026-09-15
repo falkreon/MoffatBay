@@ -259,6 +259,28 @@ class ReadCapability {
 	}
 
 	/**
+	 * Gets a Reservation by its Confirmation Number (MBR-######).
+	 *
+	 * @param string $confirmation
+	 *   The confirmation number to search for
+	 *
+	 * @return Reservation|false
+	 *   If the Reservation was found, returns it. If nothing was found, returns false.
+	 */
+	function getReservationByConfirmation(string $confirmation): Reservation|false {
+		$stmt = $this->connection->prepare(
+			"SELECT * FROM Reservation WHERE Reservation.ConfirmationNumber = :confirmation;"
+			);
+
+		$args = [':confirmation' => $confirmation];
+		$stmt->execute($args);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Reservation');
+		$result = $stmt->fetch();
+
+		return $result;
+	}
+
+	/**
 	 * Gets a RoomType by its Id.
 	 *
 	 * @param int Id

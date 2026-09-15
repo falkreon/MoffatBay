@@ -40,7 +40,11 @@ function validateLoginData(): array|false {
 $form = validateLoginData();
 
 if ($form === false) {
-	header('Location: login.php?error=1');
+	if (isset($_POST['source'])) {
+		header('Location: login.php?error=1&source=' . $_POST['source']);
+	} else {
+		header('Location: login.php?error=1');
+	}
 	exit;
 }
 
@@ -50,7 +54,11 @@ try {
 	unset($db);
 
 	if ($user === false) {
-		header('Location: login.php?error=1');
+		if (isset($_POST['source'])) {
+			header('Location: login.php?error=1&source=' . $_POST['source']);
+		} else {
+			header('Location: login.php?error=1');
+		}
 		exit;
 	}
 
@@ -59,6 +67,14 @@ try {
 	session_regenerate_id(true);
 	$_SESSION['user_id'] = $user->Id;
 
+	// If we logged in in response to some access denial, try to go "back" there after login.
+	if (isset($_POST['source'])) {
+		switch($_POST['source']) {
+			case 'reservation':
+				header('Location: reservation.php');
+				exit;
+		}
+	}
 	header('Location: user_home.php');
 	exit;
 

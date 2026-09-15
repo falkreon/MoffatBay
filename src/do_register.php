@@ -88,6 +88,15 @@ if ($form) {
 			// Set user session - they are now logged in!
 			$_SESSION['user_id'] = $id;
 
+			// If we logged in in response to some access denial, try to go "back" there after login.
+			if (isset($_POST['source'])) {
+				switch($_POST['source']) {
+					case 'reservation':
+						header('Location: reservation.php');
+						exit;
+				}
+			}
+
 			// TODO: If we make a user-home page, switch this to redirect to it.
 			?>
 
