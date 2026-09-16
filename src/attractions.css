@@ -1,0 +1,48 @@
+/*
+ * CSD460: Capstone in Software Development
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ *
+ * 9/16/2026
+ * CSS Specific to the Attractions Page
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+	background: var(--accent-gradient);
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+    padding: 20px;
+}
+
+section img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.text {
+    max-width: 700px;
+    text-align: center;
+}
