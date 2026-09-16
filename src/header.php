@@ -31,9 +31,9 @@ declare(strict_types=1);
 
 		if (isset($_SESSION['user_id'])) {
 			require_once('database_capability.php');
-			$db = new ReadCapability();
-			$header_user = $db->getUser((int) $_SESSION['user_id']);
-			unset($db);
+			$header_db = new ReadCapability();
+			$header_user = $header_db->getUser((int) $_SESSION['user_id']);
+			unset($header_db);
 
 			if ($header_user !== false) {
 		?>
