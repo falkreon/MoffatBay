@@ -41,13 +41,10 @@ VALUES
 
 INSERT INTO Permission (Id, Name)
 VALUES
-    (1, 'View Reservations'),
-    (2, 'Create Reservations'),
-    (3, 'Edit Reservations'),
-    (4, 'Delete Reservations'),
-    (5, 'View Contact Messages'),
-    (6, 'View Customer Profile'),
-    (7, 'Employee Profile View');
+    (1, 'View Other Contact'),
+    (2, 'View Other User'),
+    (3, 'View Other Reservation'),
+    (4, 'Edit Reservation');
 
 -- ----------------------------------------------------
 -- RoomType Test Data
@@ -93,9 +90,9 @@ VALUES
     ),
     (
         3,
-        'michael.admin@gmail.com',
-        'Michael',
-        'Anderson',
+        'ed.cullen@gmail.com',
+        'Edward',
+        'Cullen',
         '(202) 420-1386',
         '$2y$12$i.DhAICP8XhoVmRCQisJ.eIGwH4o6VbCT/a2LobMYtVab1SjIRBLO',
         4
@@ -193,8 +190,8 @@ VALUES
     (
         3,
         3,
-        'Michael Anderson',
-        'michael.admin@gmail.com',
+        'Edward Cullen',
+        'ed.cullen@gmail.com',
         NULL,
         'Resolved',
         'Website Feedback',
@@ -211,51 +208,27 @@ VALUES
 -- 2 = Customer
 -- 3 = Employee
 -- 4 = Admin
---
--- Permission IDs
--- 1 = View Reservations
--- 2 = Create Reservations
--- 3 = Edit Reservations
--- 4 = Delete Reservations
--- 5 = View Contact Messages
--- 6 = View Customer Profile
--- 7 = Employee Profile View
 
 
 -- Guest permissions
-INSERT INTO RolePermission (RoleId, PermissionId)
-VALUES
-    (1, 1),  -- View reservations
-    (1, 2);  -- Create reservations
+-- Nothing
 
 
 -- Customer permissions
-INSERT INTO RolePermission (RoleId, PermissionId)
-VALUES
-    (2, 1),  -- View reservations
-    (2, 2),  -- Create reservations
-    (2, 3),  -- Edit reservations
-    (2, 6);  -- View customer profile
+-- Nothing (but there are some implied ones)
 
 
 -- Employee permissions
 INSERT INTO RolePermission (RoleId, PermissionId)
 VALUES
-    (3, 1),  -- View reservations
-    (3, 2),  -- Create reservations
-    (3, 3),  -- Edit reservations
-    (3, 5),  -- View contact messages
-    (3, 6),  -- View customer profile
-    (3, 7);  -- Employee profile view
-
+    (3, 1),  -- View contact messages
+    (3, 2),  -- View customer profiles
+    (3, 3);  -- View customer reservations
 
 -- Admin permissions
 INSERT INTO RolePermission (RoleId, PermissionId)
 VALUES
-    (4, 1),  -- View reservations
-    (4, 2),  -- Create reservations
-    (4, 3),  -- Edit reservations
-    (4, 4),  -- Delete reservations
-    (4, 5),  -- View contact messages
-    (4, 6),  -- View customer profile
-    (4, 7);  -- Employee profile view
+    (4, 1),  -- View contact messages
+    (4, 2),  -- View customer profiles
+    (4, 3),  -- View customer reservations
+    (4, 4);  -- Edit or delete customer reservations

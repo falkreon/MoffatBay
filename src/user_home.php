@@ -19,21 +19,29 @@ if (!isset($_SESSION['user_id'])) {
 	exit;
 }
 
+// Figure out whether we're viewing our own home or someone else's
+$viewedUser = (isset($_GET['user'])) ?
+	(int) $_GET['user'] :
+	(int) $_SESSION['user_id'];
+
 try {
 	$db = new ReadCapability();
-	$user = $db->getUser((int) $_SESSION['user_id']);
-	unset($db);
 
-	if ($user === false) {
-		// The account associated with the session no longer exists.
-		$_SESSION = [];
-		session_destroy();
-		header('Location: login.php');
+	// Are we authorized to view this page?
+	$authorized = ($viewedUser == $_SESSION['user_id']) ||                      // Ownership, or
+		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER); // permission
+
+	if (!$authorized) {
+		header('Location: unauthorized.php');
 		exit;
 	}
+	$user = $db->getUser($viewedUser);
+
 } catch (Throwable $e) {
 	header('Location: login_error.php');
 	exit;
+} finally {
+	unset($db);
 }
 ?>
 <!DOCTYPE html>
@@ -51,14 +59,27 @@ try {
 	<?php require 'header.php'; ?>
 	<div class="center">
 	<section>
-		<h1>Welcome, <?php echo htmlspecialchars($user->FirstName, ENT_QUOTES, 'UTF-8'); ?>!</h1>
-		<p>You are logged in to your Moffat Bay Lodge account.</p>
-		<p class="user-email"><?php echo htmlspecialchars($user->Email, ENT_QUOTES, 'UTF-8'); ?></p>
+		<?php
+		if ($user === false) {
+			?>
+			<p>We're sorry, we couldn't find this user account.
+			<?php
+		} else ?>
 
-		<div class="home-actions">
-			<a class="button" href="logout.php">Log Out</a>
-			<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
-		</div>
+			<?php if ($_SESSION['user_id'] == $viewedUser) { ?>
+				<h1>Welcome, <?= htmlspecialchars($user->FirstName) ?>!</h1>
+				<p>You are logged in to your Moffat Bay Lodge account.</p>
+			<?php } else { ?>
+				<h1><?= htmlspecialchars($user->FirstName) ?> <?= htmlspecialchars($user->LastName) ?></h1>
+			<?php } ?>
+			<p class="user-email"><?= htmlspecialchars($user->Email, ENT_QUOTES, 'UTF-8') ?></p>
+
+			<?php if ($_SESSION['user_id'] == $viewedUser) { ?>
+			<div class="home-actions">
+				<a class="button" href="logout.php">Log Out</a>
+				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
+			</div>
+		<?php } ?>
 	</section>
 	</div>
 </body>

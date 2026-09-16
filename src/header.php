@@ -27,18 +27,18 @@ declare(strict_types=1);
 
 	<div class="user">
 		<?php
-		$user = false;
+		$header_user = false;
 
 		if (isset($_SESSION['user_id'])) {
 			require_once('database_capability.php');
 			$db = new ReadCapability();
-			$user = $db->getUser((int) $_SESSION['user_id']);
+			$header_user = $db->getUser((int) $_SESSION['user_id']);
 			unset($db);
 
-			if ($user !== false) {
+			if ($header_user !== false) {
 		?>
 			<div class="user-left">
-				<div class="username"><?= $user->FirstName . ' ' . $user->LastName ?></div>
+				<div class="username"><?= $header_user->FirstName . ' ' . $header_user->LastName ?></div>
 
 				<div class="user-links">
 					<a href="logout.php">Log Out</a>
@@ -50,7 +50,7 @@ declare(strict_types=1);
 			}
 		}
 
-		if ($user === false) {
+		if ($header_user === false) {
 		?>
 			<div class="user-left">
 				<div class="username">Not Logged In</div>

@@ -113,6 +113,17 @@ class ContactMessage {
 	}
 }
 
+class Permission {
+	/** This permission grants the user the ability to view ContactMessage objects they do not own */
+	public const VIEW_OTHER_CONTACT = 'View Other Contact';
+	/** This permission grants the user the ability to view User objects they do not own */
+	public const VIEW_OTHER_USER = 'View Other User';
+	/** This permission grants the user the ability to view Reservation objects they do not own */
+	public const VIEW_OTHER_RESERVATION = 'View Other Reservation';
+	/** This permission grants the user the ability to *edit* Reservation objects, including ones they do not own */
+	public const EDIT_OTHER_RESERVATION = 'Edit Reservation';
+}
+
 /**
  * A "read-only" database capability. All methods are going to be
  * accessor methods like "get" something or "is" something.
@@ -187,6 +198,10 @@ class ReadCapability {
 		$stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
 		$result = $stmt->fetchAll();
 		return ($result===FALSE) ? [] : $result;
+	}
+
+	function hasPermission(User|int $user, string $permission): bool {
+		return in_array($permission, $this->getPermissions($user));
 	}
 
 	function authenticateUser($email, #[SensitiveParameter] string $password) : User|false {
