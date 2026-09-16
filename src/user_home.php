@@ -37,6 +37,15 @@ try {
 	}
 	$user = $db->getUser($viewedUser);
 
+	// Get reservation list if we got em
+	$authReservationList = ($viewedUser == $_SESSION['user_id']) ||
+		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_RESERVATION);
+	if ($authReservationList) {
+		$rooms = $db->getReservations($viewedUser);
+	} else {
+		$rooms = false;
+	}
+
 } catch (Throwable $e) {
 	header('Location: login_error.php');
 	exit;
@@ -64,7 +73,7 @@ try {
 			?>
 			<p>We're sorry, we couldn't find this user account.
 			<?php
-		} else ?>
+		} else {?>
 
 			<?php if ($_SESSION['user_id'] == $viewedUser) { ?>
 				<h1>Welcome, <?= htmlspecialchars($user->FirstName) ?>!</h1>
@@ -79,7 +88,32 @@ try {
 				<a class="button" href="logout.php">Log Out</a>
 				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
 			</div>
-		<?php } ?>
+			<?php }
+
+			if ($rooms !== false && sizeof($rooms) > 0) { ?>
+				<h2>Reservations</h2>
+				<table class="reservation-table">
+				<?php foreach($rooms as $room) { ?>
+					<?php
+					$checkInDate = new DateTime($room->CheckIn);
+					$checkOutDate = new DateTime($room->CheckOut);
+					// Use the same logic as reservation confirmation:
+					$days = $checkOutDate->diff($checkInDate)->days;
+					?>
+					<tr>
+						<td><a href="#"><?= $room->ConfirmationNumber ?></a></td>
+						<td><?= $checkInDate->format('Y-m-d') ?></td>
+						<td><?= $days ?> Days</td>
+					</tr>
+				<?php }
+				if ($_SESSION['user_id'] == $viewedUser) { ?>
+					<tr>
+						<td><a class="button" href="reservation.php">New</a></td>
+					</tr>
+				<?php } ?>
+				</table>
+			<?php }
+		} ?>
 	</section>
 	</div>
 </body>
