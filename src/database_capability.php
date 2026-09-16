@@ -113,6 +113,9 @@ class ContactMessage {
 	}
 }
 
+/**
+ * A set of constants representing permission nodes that a User can have.
+ */
 class Permission {
 	/** This permission grants the user the ability to view ContactMessage objects they do not own */
 	public const VIEW_OTHER_CONTACT = 'View Other Contact';
@@ -170,12 +173,56 @@ class ReadCapability {
 		return $result;
 	}
 
+	/**
+	 * Gets the User that is currently logged-in.
+	 *
+	 * @return User|false
+	 *   If the User is logged in, return their info from the database. Otherwise, returns false.
+	 */
 	function getLoggedInUser(): User|false {
+		if (session_status() === PHP_SESSION_NONE) session_start();
 		if (!isset($_SESSION['user_id'])) return FALSE;
 
 		return $this->getUser((int) $_SESSION['user_id']);
 	}
 
+	/**
+	 * Finds a User by a search string - this string can be a partial match against their Email,
+	 * FirstName, or LastName.
+	 *
+	 * @param string $search
+	 *   The search term to use to try and find the User
+	 *
+	 * @return User[]
+	 *   An array of Users matching the Search. If no Users were found, an empty array is returned.
+	 */
+	function findUser(string $search): array {
+		$stmt = $this->connection->prepare(
+			<<<SQL
+			SELECT Id, Email, FirstName, LastName, PhoneNumber, RoleId FROM `User`
+			WHERE
+				`Email` LIKE CONCAT( '%', :search, '%') OR
+				`FirstName` LIKE CONCAT( '%', :search, '%') OR
+				`LastName` LIKE CONCAT( '%', :search, '%');
+			SQL
+			);
+
+		$stmt->execute([':search' => $search]);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+		$result = $stmt->fetchAll();
+
+		return is_array($result) ? $result : [];
+	}
+
+	/**
+	 * Finds all permission nodes owned by the specified User.
+	 *
+	 * @param User|int $user
+	 *   The User to get Permission nodes for
+	 *
+	 * @return string[]
+	 *   An array of Permission nodes the User has.
+	 */
 	function getPermissions(User|int $user): array {
 		$stmt = $this->connection->prepare(
 			<<<SQL
@@ -200,11 +247,44 @@ class ReadCapability {
 		return ($result===FALSE) ? [] : $result;
 	}
 
+	/**
+	 * Queries a permission for the specified user. Always returns false for an invalid
+	 * User.
+	 *
+	 * @param User|int $user
+	 *   A User object or Id, indicating who to check Permissions for.
+	 *
+	 * @return bool
+	 *   True if this User has the specified Permission node, otherwise False.
+	 */
 	function hasPermission(User|int $user, string $permission): bool {
 		return in_array($permission, $this->getPermissions($user));
 	}
 
-	function authenticateUser($email, #[SensitiveParameter] string $password) : User|false {
+	function sessionHasPermission(string $permission): bool {
+		if (session_status() === PHP_SESSION_NONE) session_start();
+
+		if (!isset($_SESSION['user_id'])) {
+			return false;
+		}
+
+		return in_array($permission, $this->getPermissions($_SESSION['user_id']));
+	}
+
+	/**
+	 * Given login details of an email address and password, attempts to authenticate the User.
+	 *
+	 * @param string $email
+	 *   The email address the user presented
+	 *
+	 * @param #[SensitiveParameter] string $password
+	 *   The password the user presented
+	 *
+	 * @return User|false
+	 *   If the User was successfully authenticated against the database, their User object is returned.
+	 *   If for any reason authentication failed, false will be returned.
+	 */
+	function authenticateUser(string $email, #[SensitiveParameter] string $password) : User|false {
 		$stmt = $this->connection->prepare("SELECT * FROM `User` WHERE Email = :email;");
 		$stmt->execute([':email' => $email]);
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -319,6 +399,12 @@ class ReadCapability {
 
 	/**
 	 * Gets all RoomTypes
+	 *
+	 * @param bool $includeInactive
+	 *   If true, even RoomTypes that have been marked inactive will be returned.
+	 *
+	 * @return RoomType[]
+	 *   All RoomTypes in the database
 	 */
 	function getRoomTypes(bool $includeInactive = FALSE): array {
 		if ($includeInactive) {
@@ -493,7 +579,7 @@ class ReadWriteCapability extends ReadCapability {
 		}
 	}
 
-	/*
+	/**
 	 * Creates a new ContactMessage in the database to represent a form submission.
 	 * Ignores the "Id", "CreatedAt", and "Status" fields of the provided object.
 	 * These will be automatically determined during the insert.

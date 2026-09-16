@@ -24,12 +24,17 @@ try {
 
 	// Are we authorized to view this page?
 	// VIEW_OTHER_USER is required *regardless* of who we're searching for
-	$authorized = $db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER);
-
-	if (!$authorized) {
+	if (!$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER)) {
 		header('Location: unauthorized.php');
 		exit;
 	}
+
+	if (!isset($_POST['search'])) {
+		header('Location: find_user.php');
+		exit;
+	}
+
+	$searchResults = $db->findUser($_POST['search']);
 
 } catch (Throwable $e) {
 	header('Location: generic_error.php');
@@ -54,6 +59,12 @@ try {
 	<div class="center">
 	<section>
 		<h1>User Search</h1>
+		<ul class="search-results">
+		<?php foreach($searchResults as $result) { ?>
+			<a href="user_home.php?user=<?= $result->Id ?>"><li><?= $result->FirstName ?> <?= $result->LastName ?> - <?= $result->Email ?></li></a>
+		<?php } ?>
+		</ul>
+		<p>Search Again:
 		<form method="POST" action="do_find_user.php" class="search-form">
 			<input type="search" name="search" id="search" required>
 			<input type="submit" class="callout-button" value="Search">
