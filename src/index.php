@@ -70,7 +70,7 @@ Landing Page
 					class="book-your-vacation">Book Your Vacation Today.
 				</a>
 			<?php } else { ?>
-				<a href="login.php" 
+				<a href="register.php?source=reservation"
 					class="book-your-vacation">Create an Account and Book Your Vacation
 				</a>
 			<?php } ?>

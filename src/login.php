@@ -18,6 +18,11 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $loginError = isset($_GET['error']) && $_GET['error'] === '1';
+
+const VALID_SOURCES = [ 'reservation' ];
+if (isset($_GET['source'])) {
+	if (in_array($_GET['source'], VALID_SOURCES)) $source = $_GET['source'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,12 +49,17 @@ $loginError = isset($_GET['error']) && $_GET['error'] === '1';
 	<div class="center">
 	<section>
 		<h1>Log In</h1>
-		<p>(or <a href="register.php">Create an Account</a> instead)</p>
+		<?php if (isset($source)) { ?>
+			<p>(or <a href="register.php?source=<?= $source ?>">Create an Account</a> instead)
+		<?php } else { ?>
+			<p>(or <a href="register.php">Create an Account</a> instead)
+		<?php } ?>
 
 		<?php if ($loginError) { ?>
 			<p class="login-error" role="alert">The username or password is incorrect.</p>
+		<?php } else if (isset($source)) { ?>
+			<p class="login-error" role="alert">You need to login to do that.</p>
 		<?php } ?>
-
 		<form class="form-2col" method="POST" action="do_login.php">
 			<p><label for="email">Email Address</label>
 			   <input type="text" name="email" id="email"
@@ -67,9 +77,12 @@ $loginError = isset($_GET['error']) && $_GET['error'] === '1';
 			</p>
 
 			<div class="buttons">
-				<a class="button" href="index.html">Cancel</a>
+				<a class="button" href="index.php">Cancel</a>
 				<input type="submit" class="callout-button" value="Log In" id="login" disabled>
 			</div>
+			<?php if (isset($source)) { ?>
+				<input type="hidden" name="source" value="<?= $source ?>">
+			<?php } ?>
 		</form>
 	</section>
 	</div>

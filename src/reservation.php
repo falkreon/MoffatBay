@@ -19,7 +19,7 @@ $database = new ReadCapability();
 $loggedInUser = $database->getLoggedInUser();
 // display an error page if a guest is not logged in.
 if ($loggedInUser === false) {
-	header('Location: ReservationError.php?err=login-needed');
+	header('Location: login.php?source=reservation');
 		exit;
 	}
 // Get the available room types from the database.

@@ -16,13 +16,13 @@ Gold Team
 session_start();
 require_once('database_capability.php');
 
-$db = new ReadWriteCapability();
+$db = new ReadCapability();
 {
-	$roomTypes = $db->getRoomTypes();
+	$res = $db->getReservationByConfirmation('MBR-100003');
 }
 unset($db);
 
-echo(implode(', ', $roomTypes));
+echo($res ? print_r($res) : 'FALSE');
 
 ?>
 </pre>

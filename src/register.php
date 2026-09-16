@@ -21,6 +21,12 @@ if (ini_get("session.use_cookies")) {
 	);
 }
 session_destroy();
+
+// TODO: Can we centralize VALID_SOURCES somewhere? This isn't very DRY vs login.php
+const VALID_SOURCES = [ 'reservation' ];
+if (isset($_GET['source'])) {
+	if (in_array($_GET['source'], VALID_SOURCES)) $source = $_GET['source'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +91,11 @@ session_destroy();
 	<div class="center">
 	<section>
 		<h1>Create an Account</h1>
-		<p>(or <a href="login.php">Log In</a> instead)
+		<?php if (isset($source)) { ?>
+			<p>(or <a href="login.php?source=<?= $source ?>">Log In</a> instead)
+		<?php } else { ?>
+			<p>(or <a href="login.php">Log In</a> instead)
+		<?php } ?>
 		<form class="form-2col" method="POST" action="do_register.php">
 			<p><label for="email">Email Address</label>
 			<!-- Extremely simple and permissive email regex: -->
@@ -129,7 +139,10 @@ session_destroy();
 				<a class="button" href="index.php">Cancel</a>
 				<input type="submit" class="button callout-button" value="Register" id="register" disabled>
 			</div>
-		</div>
+			<?php if (isset($source)) { ?>
+				<input type="hidden" name="source" value="<?= $source ?>">
+			<?php } ?>
+		</form>
 	</section>
 	</div>
 </body>
