@@ -375,6 +375,23 @@ class ReadCapability {
 		return $result;
 	}
 
+	function getReservationsByEmail(string $email): array {
+		$stmt = $this->connection->prepare(
+			<<<SQL
+			SELECT Reservation.*
+			FROM Reservation
+			LEFT JOIN `User` ON Reservation.UserId = `User`.Id
+			WHERE User.Email = :email;
+			SQL
+			);
+
+		$stmt->execute([':email' => $email]);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Reservation');
+		$result = $stmt->fetchAll();
+
+		return is_array($result) ? $result : [];
+	}
+
 	/**
 	 * Gets a RoomType by its Id.
 	 *

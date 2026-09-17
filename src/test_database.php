@@ -18,7 +18,7 @@ require_once('database_capability.php');
 
 $db = new ReadCapability();
 {
-	$res = $db->getReservationByConfirmation('MBR-100003');
+	$res = $db->getReservationsByEmail('ed.cullen@gmail.com');
 }
 unset($db);
 
