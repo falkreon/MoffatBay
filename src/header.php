@@ -23,6 +23,7 @@ declare(strict_types=1);
 		<a href="about_us.php">About</a>
 		<a href="attractions.php">Attractions</a>
 		<a href="reservation.php">Book Your Vacation</a>
+		<a href="lookup_reservation.php">Look Up Reservation</a>
 	</nav>
 
 	<div class="user">

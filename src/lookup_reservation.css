@@ -1,0 +1,198 @@
+/*
+ * CSD460: Capstone in Software Development
+ * Gold Team
+ *   Isaac Ellingson
+ *   Patrice Moracchini
+ *   Cannon Rivera
+ *   José Velázquez Sáenz
+ *
+ * 9/16/2026
+ *
+ * CSS specific to the public reservation lookup page.
+ */
+
+body {
+	min-height: 100vh;
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+
+.lookup-main {
+	width: calc(100% - 2rem);
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 3rem 0 4rem;
+}
+
+.lookup-heading {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.lookup-heading h1 {
+	margin: 0 0 0.75rem;
+	font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.lookup-heading p {
+	max-width: 720px;
+	margin: 0 auto;
+	line-height: 1.6;
+}
+
+.lookup-methods {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem;
+	align-items: stretch;
+}
+
+.lookup-card {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	background: var(--accent-gradient);
+	border-radius: 15px;
+	box-shadow: 8px 12px rgba(0, 0, 0, 0.25);
+}
+
+.lookup-card h2 {
+	margin: 0 0 0.5rem;
+	font-size: 1.35rem;
+}
+
+.lookup-card p {
+	min-height: 3em;
+	margin: 0 0 1.25rem;
+	line-height: 1.5;
+}
+
+.lookup-card label {
+	margin-bottom: 0.5rem;
+	font-weight: 700;
+}
+
+.lookup-card input {
+	width: 100%;
+	min-height: 46px;
+	padding: 0.65rem 0.75rem;
+	border: 2px solid var(--secondary-accent-color);
+	border-radius: 8px;
+	background: #ffffff;
+	font: inherit;
+}
+
+.lookup-card input:focus {
+	outline: 3px solid rgba(245, 124, 47, 0.4);
+	border-color: var(--callout-color);
+}
+
+.lookup-card button {
+	align-self: center;
+	min-width: 210px;
+	margin-top: 1.5rem;
+	padding: 0.8rem 1.25rem;
+	border: 0;
+	border-radius: 8px;
+	background: var(--callout-gradient);
+	box-shadow: 4px 5px rgba(0, 0, 0, 0.25);
+	color: var(--text-color);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.lookup-card button:hover,
+.lookup-card button:focus-visible {
+	filter: brightness(1.05);
+	transform: translateY(-1px);
+}
+
+.lookup-message {
+	max-width: 760px;
+	margin: 0 auto 1.5rem;
+	padding: 1rem 1.25rem;
+	border-radius: 8px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.lookup-error {
+	background: #ffc0b4;
+	border: 2px solid #b63a22;
+}
+
+.lookup-results {
+	margin-top: 3.5rem;
+}
+
+.lookup-results > h2 {
+	margin: 0 0 1.5rem;
+	text-align: center;
+	font-size: clamp(1.6rem, 4vw, 2.25rem);
+}
+
+.reservation-card {
+	margin: 0 auto 2rem;
+	padding: 2rem;
+	background: var(--secondary-accent-gradient);
+	border-radius: 15px;
+	box-shadow: 8px 12px rgba(0, 0, 0, 0.25);
+}
+
+.reservation-card h3 {
+	margin: 0 0 1.5rem;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.reservation-details {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem 2rem;
+	margin: 0;
+}
+
+.reservation-details div {
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.reservation-details .full-row {
+	grid-column: 1 / -1;
+}
+
+.reservation-details dt {
+	margin-bottom: 0.25rem;
+	font-weight: 700;
+}
+
+.reservation-details dd {
+	margin: 0;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+	.lookup-main {
+		padding-top: 2rem;
+	}
+
+	.lookup-methods,
+	.reservation-details {
+		grid-template-columns: 1fr;
+	}
+
+	.lookup-card,
+	.reservation-card {
+		padding: 1.5rem;
+	}
+
+	.lookup-card p {
+		min-height: auto;
+	}
+
+	.reservation-details .full-row {
+		grid-column: auto;
+	}
+}
