@@ -46,6 +46,8 @@ Landing Page
 			<h1>Moffat Bay Lodge</h1>
 		</section>
 
+		<hr>
+
 		<section class="content">
 			<h2>Welcome to Moffat Bay Lodge</h2>
 			<p>	Experience the beauty of nature and the comfort of our lodge.<br>
@@ -54,6 +56,8 @@ Landing Page
 			<!-- source: https://pixels.com/featured/lime-kiln-point-state-park-sunset-near-port-angeles-wa-howard-snyder.html -->
 			<img src="pictures/lime-kiln-point.jpg" alt="Lime Kiln Point State Park Sunset">
 		</section>
+
+		<hr>
 
 		<section class="lodge">
 			<h2> Our Lodge</h2>
@@ -77,6 +81,8 @@ Landing Page
 			
 		</section>
 
+		<hr>
+
 		<section class="marina">
 			<h2> The Marina</h2>
 			<p> Enjoy the magical marina with beautiful views<br> and various nautical activities available 
@@ -88,6 +94,8 @@ Landing Page
 			<a href="#"
 				class="marina-button">Access The Marina</a>
 		</section>
+		
+		<hr>
 
 		<section class="attractions">
 			<h2> Attractions</h2>
@@ -101,6 +109,8 @@ Landing Page
 
 		</section>
 
+		<hr>
+		
 	</body>
 
 </html>
