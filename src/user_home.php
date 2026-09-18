@@ -19,21 +19,38 @@ if (!isset($_SESSION['user_id'])) {
 	exit;
 }
 
+// Figure out whether we're viewing our own home or someone else's
+$viewedUser = (isset($_GET['user'])) ?
+	(int) $_GET['user'] :
+	(int) $_SESSION['user_id'];
+
 try {
 	$db = new ReadCapability();
-	$user = $db->getUser((int) $_SESSION['user_id']);
-	unset($db);
 
-	if ($user === false) {
-		// The account associated with the session no longer exists.
-		$_SESSION = [];
-		session_destroy();
-		header('Location: login.php');
+	// Are we authorized to view this page?
+	$authorized = ($viewedUser == $_SESSION['user_id']) ||                      // Ownership, or
+		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER); // permission
+
+	if (!$authorized) {
+		header('Location: unauthorized.php');
 		exit;
 	}
+	$user = $db->getUser($viewedUser);
+
+	// Get reservation list if we got em
+	$authReservationList = ($viewedUser == $_SESSION['user_id']) ||
+		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_RESERVATION);
+	if ($authReservationList) {
+		$rooms = $db->getReservations($viewedUser);
+	} else {
+		$rooms = false;
+	}
+
 } catch (Throwable $e) {
 	header('Location: login_error.php');
 	exit;
+} finally {
+	unset($db);
 }
 ?>
 <!DOCTYPE html>
@@ -51,14 +68,52 @@ try {
 	<?php require 'header.php'; ?>
 	<div class="center">
 	<section>
-		<h1>Welcome, <?php echo htmlspecialchars($user->FirstName, ENT_QUOTES, 'UTF-8'); ?>!</h1>
-		<p>You are logged in to your Moffat Bay Lodge account.</p>
-		<p class="user-email"><?php echo htmlspecialchars($user->Email, ENT_QUOTES, 'UTF-8'); ?></p>
+		<?php
+		if ($user === false) {
+			?>
+			<p>We're sorry, we couldn't find this user account.
+			<?php
+		} else {?>
 
-		<div class="home-actions">
-			<a class="button" href="logout.php">Log Out</a>
-			<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
-		</div>
+			<?php if ($_SESSION['user_id'] == $viewedUser) { ?>
+				<h1>Welcome, <?= htmlspecialchars($user->FirstName) ?>!</h1>
+				<p>You are logged in to your Moffat Bay Lodge account.</p>
+			<?php } else { ?>
+				<h1><?= htmlspecialchars($user->FirstName) ?> <?= htmlspecialchars($user->LastName) ?></h1>
+			<?php } ?>
+			<p class="user-email"><?= htmlspecialchars($user->Email, ENT_QUOTES, 'UTF-8') ?></p>
+
+			<?php if ($_SESSION['user_id'] == $viewedUser) { ?>
+			<div class="home-actions">
+				<a class="button" href="logout.php">Log Out</a>
+				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
+			</div>
+			<?php }
+
+			if ($rooms !== false && sizeof($rooms) > 0) { ?>
+				<h2>Reservations</h2>
+				<table class="reservation-table">
+				<?php foreach($rooms as $room) { ?>
+					<?php
+					$checkInDate = new DateTime($room->CheckIn);
+					$checkOutDate = new DateTime($room->CheckOut);
+					// Use the same logic as reservation confirmation:
+					$days = $checkOutDate->diff($checkInDate)->days;
+					?>
+					<tr>
+						<td><a href="#"><?= $room->ConfirmationNumber ?></a></td>
+						<td><?= $checkInDate->format('Y-m-d') ?></td>
+						<td><?= $days ?> Days</td>
+					</tr>
+				<?php }
+				if ($_SESSION['user_id'] == $viewedUser) { ?>
+					<tr>
+						<td><a class="button" href="reservation.php">New</a></td>
+					</tr>
+				<?php } ?>
+				</table>
+			<?php }
+		} ?>
 	</section>
 	</div>
 </body>

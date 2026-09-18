@@ -9,6 +9,8 @@
  *   José Velázquez Sáenz
  * 9/6/2026
  */
+
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,12 +24,15 @@
 	<link rel="stylesheet" href="login.css">
 </head>
 <body>
-	<section>
-		<h1>Unable to Log In</h1>
-		<p>We're sorry. An error occurred while trying to log you in. Please try again.</p>
-		<div class="buttons centered-buttons">
-			<a class="button callout-button" href="login.php">Try Again</a>
-		</div>
-	</section>
+	<?php require('header.php') ?>
+	<div class="center">
+		<section>
+			<h1>Unable to Log In</h1>
+			<p>We're sorry. An error occurred while trying to log you in. Please try again.</p>
+			<div class="buttons centered-buttons">
+				<a class="button callout-button" href="login.php">Try Again</a>
+			</div>
+		</section>
+	</div>
 </body>
 </html>
