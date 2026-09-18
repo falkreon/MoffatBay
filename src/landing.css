@@ -31,7 +31,7 @@ header {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-
+	margin: 0 auto 3rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -79,6 +79,18 @@ header {
 	border: 1px solid black;
 }
 
+/* Salmon logo */
+hr {
+	display: block;
+	background-image: url('pictures/salmon-logo.png');
+	background-size: contain;
+	width: 100%;
+	max-width:40px;
+	height: 40px;
+	border: none;
+}
+
+/* Buttons */
 .book-your-vacation {
 background: var(--callout-gradient);
 }
