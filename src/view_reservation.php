@@ -21,8 +21,9 @@ try {
 		header('Location: generic_error.php');
 		exit;
 	}
-	// roomType validation
-	if (!isset($_GET['r']) || empty($_GET['r'])) {
+
+	// Also implicitly checks !isset()
+	if (empty($_GET['r'])) {
 		// You shouldn't get here by normal means - user is probably altering the address bar
 		header('Location: generic_error.php');
 		exit;
@@ -68,8 +69,6 @@ try {
 	</head>
 
 	<body>
-		<a name='top'></a>
-		<!-- Include the header for the page -->
 		<?php require 'header.php'; ?>
 
 		<section class="section-title">
@@ -78,21 +77,20 @@ try {
 
 		<section class="reservation-summary">
 			<div class="reservation-details">
-				<!-- Reservation Information pulled from the d -->
-				<p><strong>Room Type:</strong> <?php echo htmlspecialchars($roomType->Name); ?></p>
-				<p><strong>Rate per Night:</strong> $<?php echo number_format((float) $roomType->NightlyRate, 2); ?></p>
+				<p><strong>Room Type:</strong> <?= htmlspecialchars($roomType->Name) ?></p>
+				<p><strong>Rate per Night:</strong> $<?= number_format((float) $roomType->NightlyRate, 2) ?></p>
 				<br>
-				<p><strong>Check-in Date:</strong> <?php echo htmlspecialchars($res->CheckIn); ?></p>
-				<p><strong>Check-out Date:</strong> <?php echo htmlspecialchars($res->CheckOut); ?></p>
+				<p><strong>Check-in Date:</strong> <?= htmlspecialchars($res->CheckIn) ?></p>
+				<p><strong>Check-out Date:</strong> <?= htmlspecialchars($res->CheckOut) ?></p>
 				<br>
-				<p><strong>Number of Nights:</strong> <?php echo($numberOfNights); ?></p>
-				<p><strong>Number of Guests:</strong> <?php echo($res->GuestCount); ?></p>
+				<p><strong>Number of Nights:</strong> <?= $numberOfNights ?></p>
+				<p><strong>Number of Guests:</strong> <?= $res->GuestCount ?></p>
 				<br>
-				<p><strong>Total Cost:</strong> $<?php echo(number_format((float)$res->QuotedPrice, 2)); ?></p>
+				<p><strong>Total Cost:</strong> $<?= number_format((float)$res->QuotedPrice, 2) ?></p>
 				<br>
 				<!-- Display special requests if any, htmlspecialchars is used to prevent XSS -->
 				<?php if (!empty($res->SpecialRequests)) : ?>
-					<p><strong>Comments:</strong> <?php echo htmlspecialchars($res->SpecialRequests); ?></p>
+					<p><strong>Comments:</strong> <?= $res->SpecialRequests ?></p>
 				<?php endif; ?>
 			</div>
 		</section>

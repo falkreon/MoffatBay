@@ -268,7 +268,7 @@ class ReadCapability {
 			return false;
 		}
 
-		return in_array($permission, $this->getPermissions($_SESSION['user_id']));
+		return in_array($permission, $this->getPermissions((int) $_SESSION['user_id']));
 	}
 
 	/**
