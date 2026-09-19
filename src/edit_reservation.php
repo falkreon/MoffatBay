@@ -73,27 +73,31 @@ try {
 
 		<section class="reservation-summary">
 			<div class="reservation-details">
-				<form class="form-2col">
+				<form class="form-2col" method="POST" action="do_edit_reservation.php">
 					<input type="hidden" name="id" value="<?= $res->Id ?>">
 
 					<label for="roomType">Room Type</label>
-					<select id="roomType" name="roomType">
+					<select id="roomType" name="roomType" required>
 						<?php foreach($roomTypes as $i => $roomType) { ?>
-							<option value="<?= $i ?>"><?= $roomType->Name ?></option>
+							<?php if ($roomType->Id == $res->RoomTypeId) { ?>
+								<option value="<?= $roomType->Id ?>" selected><?= $roomType->Name ?></option>
+							<?php } else { ?>
+								<option value="<?= $roomType->Id ?>"><?= $roomType->Name ?></option>
+							<?php } ?>
 						<?php } ?>
 					</select>
 
 					<label for="checkIn">Check In</label>
-					<input type="date" id="checkIn" name="checkIn" value="<?= $res->CheckIn ?>">
+					<input type="date" id="checkIn" name="checkIn" value="<?= $res->CheckIn ?>" required>
 
 					<label for="cehckOut">Check Out</label>
-					<input type="date" id="checkOut" name="checkOut" value="<?= $res->CheckOut ?>">
+					<input type="date" id="checkOut" name="checkOut" value="<?= $res->CheckOut ?>" required>
 
 					<label for="guestCount">Guest Count</label>
-					<input type="number" id="guestCount" name="guestCount" min="0" max="6" value="<?= $res->GuestCount ?>">
+					<input type="number" id="guestCount" name="guestCount" min="0" max="6" value="<?= $res->GuestCount ?>" required>
 
 					<label for="quotedPrice">Total Cost</label>
-					<input type="number" id="quotedPrice" name="quotedPrice" min="0" step="0.01" value="<?= $res->QuotedPrice ?>">
+					<input type="number" id="quotedPrice" name="quotedPrice" min="0" step="0.01" value="<?= $res->QuotedPrice ?>" required>
 
 					<label for="specialRequests">Special Requests</label>
 					<textarea id="specialRequests" name="specialRequests"><?= htmlspecialchars($res->SpecialRequests) ?></textarea>

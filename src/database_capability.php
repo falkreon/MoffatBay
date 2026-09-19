@@ -597,6 +597,50 @@ class ReadWriteCapability extends ReadCapability {
 	}
 
 	/**
+	 * Updates a Reservation's details to match the new object. Will update the reservation matching the specified Id,
+	 * ignoring the ConfirmationNumber and UserId fields - these cannot be changed.
+	 *
+	 * @param Reservation $reservation
+	 *   The updated data to record in the database.
+	 *
+	 * @return bool
+	 *   True if the reservation was updated successfully. False if the reservation could not be updated
+	 *   for any reason.
+	 */
+	function updateReservation(Reservation $reservation): bool {
+		try {
+			$stmt = $this->connection->prepare(
+				<<<SQL
+				UPDATE Reservation
+				SET
+					RoomTypeId = :roomTypeId,
+					CheckIn = :checkIn,
+					CheckOut = :checkOut,
+					GuestCount = :guestCount,
+					QuotedPrice = :quotedPrice,
+					SpecialRequests = :specialRequests
+				WHERE Id = :id;
+				SQL
+				);
+			$args = [
+				':id' => $reservation->Id,
+				':roomTypeId' => $reservation->RoomTypeId,
+				':checkIn' => $reservation->CheckIn,
+				':checkOut' => $reservation->CheckOut,
+				':guestCount' => $reservation->GuestCount,
+				':quotedPrice' => $reservation->QuotedPrice,
+				':specialRequests' => $reservation->SpecialRequests
+				];
+
+			$result = $stmt->execute($args);
+
+			return ($result === FALSE) ? FALSE : TRUE;
+		} catch (Exception $e) {
+			return FALSE;
+		}
+	}
+
+	/**
 	 * Creates a new ContactMessage in the database to represent a form submission.
 	 * Ignores the "Id", "CreatedAt", and "Status" fields of the provided object.
 	 * These will be automatically determined during the insert.

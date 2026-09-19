@@ -46,6 +46,9 @@ try {
 	$checkOut = new DateTime($res->CheckOut);
 	$checkIn = new DateTime($res->CheckIn);
 	$numberOfNights = $checkOut->diff($checkIn)->days;
+
+
+	$showEdit = $db->sessionHasPermission(Permission::EDIT_OTHER_RESERVATION);
 } finally {
 	unset($db);
 }
@@ -90,8 +93,12 @@ try {
 				<br>
 				<!-- Display special requests if any, htmlspecialchars is used to prevent XSS -->
 				<?php if (!empty($res->SpecialRequests)) : ?>
-					<p><strong>Comments:</strong> <?= $res->SpecialRequests ?></p>
+					<p><strong>Comments:</strong> <?= htmlspecialchars($res->SpecialRequests) ?></p>
 				<?php endif; ?>
+
+				<?php if ($showEdit) { ?>
+					<div class="buttons"><a class="edit-button" href="edit_reservation.php?id=<?= $res->Id ?>">Edit</a></div>
+				<?php } ?>
 			</div>
 		</section>
 	</body>
