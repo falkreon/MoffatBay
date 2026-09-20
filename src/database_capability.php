@@ -268,7 +268,7 @@ class ReadCapability {
 			return false;
 		}
 
-		return in_array($permission, $this->getPermissions($_SESSION['user_id']));
+		return in_array($permission, $this->getPermissions((int) $_SESSION['user_id']));
 	}
 
 	/**
@@ -591,6 +591,50 @@ class ReadWriteCapability extends ReadCapability {
 			$result = $stmt->execute($args);
 
 			return ($result === FALSE) ? FALSE : (int) $this->connection->lastInsertId();
+		} catch (Exception $e) {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * Updates a Reservation's details to match the new object. Will update the reservation matching the specified Id,
+	 * ignoring the ConfirmationNumber and UserId fields - these cannot be changed.
+	 *
+	 * @param Reservation $reservation
+	 *   The updated data to record in the database.
+	 *
+	 * @return bool
+	 *   True if the reservation was updated successfully. False if the reservation could not be updated
+	 *   for any reason.
+	 */
+	function updateReservation(Reservation $reservation): bool {
+		try {
+			$stmt = $this->connection->prepare(
+				<<<SQL
+				UPDATE Reservation
+				SET
+					RoomTypeId = :roomTypeId,
+					CheckIn = :checkIn,
+					CheckOut = :checkOut,
+					GuestCount = :guestCount,
+					QuotedPrice = :quotedPrice,
+					SpecialRequests = :specialRequests
+				WHERE Id = :id;
+				SQL
+				);
+			$args = [
+				':id' => $reservation->Id,
+				':roomTypeId' => $reservation->RoomTypeId,
+				':checkIn' => $reservation->CheckIn,
+				':checkOut' => $reservation->CheckOut,
+				':guestCount' => $reservation->GuestCount,
+				':quotedPrice' => $reservation->QuotedPrice,
+				':specialRequests' => $reservation->SpecialRequests
+				];
+
+			$result = $stmt->execute($args);
+
+			return ($result === FALSE) ? FALSE : TRUE;
 		} catch (Exception $e) {
 			return FALSE;
 		}

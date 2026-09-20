@@ -101,7 +101,7 @@ try {
 					$days = $checkOutDate->diff($checkInDate)->days;
 					?>
 					<tr>
-						<td><a href="#"><?= $room->ConfirmationNumber ?></a></td>
+						<td><a href="view_reservation.php?r=<?= $room->ConfirmationNumber ?>"><?= $room->ConfirmationNumber ?></a></td>
 						<td><?= $checkInDate->format('Y-m-d') ?></td>
 						<td><?= $days ?> Days</td>
 					</tr>
