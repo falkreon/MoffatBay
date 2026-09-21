@@ -8,37 +8,31 @@ session_start();
  *   Patrice Moracchini
  *   Cannon Rivera
  *   José Velázquez Sáenz
- * 9/16/2026
+ * 9/21/2026
  */
 
 require_once('database_capability.php');
-
-// The user search page is only available to authenticated users.
-if (!isset($_SESSION['user_id'])) {
-	header('Location: unauthorized.php');
-	exit;
-}
 
 try {
 	$db = new ReadCapability();
 
 	// Are we authorized to view this page?
-	// VIEW_OTHER_USER is required *regardless* of who we're searching for
-	if (!$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER)) {
+	if (!$db->sessionHasPermission(Permission::VIEW_OTHER_CONTACT)) {
 		header('Location: unauthorized.php');
 		exit;
 	}
 
-	if (!isset($_POST['search'])) {
-		header('Location: find_user.php');
-		exit;
+	$resolved = false;
+	if (isset($_GET['resolved'])) {
+		$resolved = (bool) $_GET['resolved'];
 	}
 
-	$searchResults = $db->findUser($_POST['search']);
+	$searchResults = $db->getContactMessages(includeResolved: $resolved, includeUnresolved: !$resolved);
 
 } catch (Throwable $e) {
-	header('Location: generic_error.php');
-	exit;
+	print_r($e);
+	//header('Location: generic_error.php');
+	//exit;
 } finally {
 	unset($db);
 }
@@ -48,7 +42,7 @@ try {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Moffat Bay Lodge - User Search</title>
+	<title>Moffat Bay Lodge - Contact messages</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -58,17 +52,17 @@ try {
 	<?php require 'header.php'; ?>
 	<div class="center">
 	<section>
-		<h1>User Search</h1>
+		<h1>Contact messages</h1>
 		<ul class="search-results">
 		<?php foreach($searchResults as $result) { ?>
-			<a href="user_home.php?user=<?= $result->Id ?>"><li><?= $result->FirstName ?> <?= $result->LastName ?> - <?= $result->Email ?></li></a>
+			<a href="view_contact.php?id=<?= $result->Id ?>"><li><?= $result->FullName ?> (<?= $result->Email ?>): <?= $result->Subject ?></li></a>
 		<?php } ?>
 		</ul>
-		<p>Search Again:
-		<form method="POST" action="do_find_user.php" class="search-form">
-			<input type="search" name="search" id="search" required>
-			<input type="submit" class="callout-button" value="Search">
-		</form>
+		<?php if ($resolved) { ?>
+			<a class="button" href="message_list.php">Show Unresolved</a>
+		<?php } else { ?>
+			<a class="button" href="message_list.php?resolved=true">Show Resolved</a>
+		<?php } ?>
 	</section>
 	</div>
 </body>

@@ -467,16 +467,29 @@ class ReadCapability {
 	 *   When TRUE, includes ContactMessages that have already been marked as resolved.
 	 *   Defaults to FALSE.
 	 *
+	 * @param bool $includeUnresolved
+	 *   When TRUE, includes ContactMessages that have not yet been marked as resolved.
+	 *   Defaults to TRUE.
+	 *
 	 * @return ContactMessage[]
-	 *   Returns an array of ContactMessage objects. If there are no messages, returns
+	 *   Returns an array of ContactMessage objects. If there are no matching messages, returns
 	 *   an empty array.
 	 */
-	function getContactMessages(bool $includeResolved = FALSE): array {
-		if ($includeResolved) {
+	function getContactMessages(bool $includeResolved = FALSE, bool $includeUnresolved = TRUE): array {
+		if (!($includeResolved || $includeUnresolved)) {
+			// Include none
+			return [];
+		} else if ($includeResolved && $includeUnresolved) {
+			// Include all
 			$stmt = $this->connection->prepare("SELECT * FROM ContactMessage;");
-		} else {
+		} else if ($includeUnresolved) {
+			// Only unresolved
 			$stmt = $this->connection->prepare(
 				"SELECT * FROM ContactMessage WHERE Status != 'Resolved';"
+				);
+		} else {
+			$stmt = $this->connection->prepare(
+				"SELECT * FROM ContactMessage WHERE Status = 'Resolved';"
 				);
 		}
 		$stmt->execute();
@@ -679,6 +692,28 @@ class ReadWriteCapability extends ReadCapability {
 			return FALSE;
 		}
 
+	}
+
+	function setMessageResolved(int|ContactMessage $message, bool $resolved): bool {
+		try {
+			$stmt = $this->connection->prepare(
+				<<<SQL
+				UPDATE ContactMessage
+				SET Resolved = :resolved
+				WHERE Id = :id
+				SQL
+				);
+			$args = [
+				':id' => ($message instanceof ContactMessage) ? $message->Id : $message,
+				':resolved' => $resolved
+				];
+			$result = $stmt->execute($args);
+
+			return result;
+		} catch (Exception $e) {
+			print_r($e);
+			return false;
+		}
 	}
 }
 
