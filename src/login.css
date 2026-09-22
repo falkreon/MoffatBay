@@ -50,6 +50,10 @@ section {
 
 }
 
+section.user-home {
+	width: 60em;
+}
+
 section > p {
 	text-align: center;
 }
@@ -113,12 +117,16 @@ h1 {
 }
 
 .buttons,
-.home-actions {
+.home-actions,
+.admin-actions {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
 
+.admin-actions {
+	border: 1px solid #000;
+}
 .centered-buttons {
 	justify-content: center;
 }
