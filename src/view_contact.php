@@ -61,21 +61,34 @@ try {
 <body>
 	<?php require 'header.php'; ?>
 	<div class="center">
-	<section>
+	<section class="details-panel">
 		<h1><?= $message->Subject ?></h1>
 		<?php if ($user !== false && $showUserLinks) { ?>
-			<p>User: <a href="user_home.php?user=<?= $user->Id ?>"><?= $user->FirstName ?> <?= $user->LastName ?> (<?= $user->Email ?>)</a>
+			<p><b>User: </b><a href="user_home.php?user=<?= $user->Id ?>"><?= $user->FirstName ?> <?= $user->LastName ?> (<?= $user->Email ?>)</a>
 		<?php } ?>
-		<p>Full Name: <?= htmlspecialchars($message->FullName) ?>
-		<p>Email: <a href="mailto:<?= htmlspecialchars($message->Email) ?>"><?= htmlspecialchars($message->Email) ?></a>
+			<p><b>Full Name: </b><?= htmlspecialchars($message->FullName) ?>
+		<p><b>Email: </b><a href="mailto:<?= htmlspecialchars($message->Email) ?>"><?= htmlspecialchars($message->Email) ?></a>
 		<?php if ($message->Phone !== null) { ?>
-		<p>Telephone: <a href="tel:<?= htmlspecialchars($message->Phone) ?>"><?= htmlspecialchars($message->Phone) ?></a>
-		<?php } ?>
-		<p>CreatedAt: <?php $createdAt = new DateTimeImmutable($message->CreatedAt); echo $createdAt->format('Y-m-d'); ?>
-		<p>Status: <?= $message->Status ?>
-		<p>Message:
+		<p><b>Telephone: </b><a href="tel:<?= htmlspecialchars($message->Phone) ?>"><?= htmlspecialchars($message->Phone) ?></a>
+			<?php } ?>
+		<p><b>CreatedAt: </b><?php $createdAt = new DateTimeImmutable($message->CreatedAt); echo $createdAt->format('Y-m-d'); ?>
+		<p><b>Status: </b><span class="bubble <?= ($message->Status == 'Resolved') ? 'bubble-resolved' : 'bubble-new'?>"><?= $message->Status ?></span>
+		<p><b>Message:</b>
 		<p><?= nl2br(htmlspecialchars($message->Message)) ?>
-		<p><button class="button" onclick="history.go(-1);">Back </button>
+		<div class="buttons">
+			<button class="button" onclick="history.go(-1);">Back </button>
+			<form action="do_message_resolution.php" method="POST">
+				<input type="hidden" name="id" value="<?= $message->Id ?>">
+				<?php if ($message->Status == 'Resolved') { ?>
+					<input type="hidden" name="resolved" value="unresolved">
+					<button class="button callout-button">Mark Unresolved</button>
+				<?php } else { ?>
+					<input type="hidden" name="resolved" value="resolved">
+					<button class="button callout-button">Mark Resolved</button>
+				<?php } ?>
+			</form>
+		</div>
+		<p>
 	</section>
 	</div>
 </body>

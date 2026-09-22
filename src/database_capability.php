@@ -132,7 +132,7 @@ class Permission {
  * accessor methods like "get" something or "is" something.
  */
 class ReadCapability {
-	protected $connection;
+	protected PDO $connection;
 
 	function __construct() {
 		$settings = parse_ini_file('user_MoffatBayRead.ini');
@@ -168,9 +168,7 @@ class ReadCapability {
 
 		$stmt->execute([':id' => $id]);
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
-		$result = $stmt->fetch();
-
-		return $result;
+		return $stmt->fetch();
 	}
 
 	/**
@@ -277,7 +275,7 @@ class ReadCapability {
 	 * @param string $email
 	 *   The email address the user presented
 	 *
-	 * @param #[SensitiveParameter] string $password
+	 * @param string $password
 	 *   The password the user presented
 	 *
 	 * @return User|false
@@ -293,7 +291,8 @@ class ReadCapability {
 		if ($result === FALSE) return FALSE;
 
 		if (password_verify($password, $result['PasswordHash'])) {
-			// TODO: Check password_needs_rehash to see if we need to reset the user's password?
+			// If we wanted to move forward with this project, we'd check password_needs_rehash here
+			// to see if we need to reset the user's password?
 
 			$user = new User();
 			$user->Id = $result['Id'];
@@ -514,7 +513,8 @@ class ReadCapability {
  * Additionally, the backing connection operates with write priveleges.
  */
 class ReadWriteCapability extends ReadCapability {
-	function __construct() {
+    /** @noinspection PhpMissingParentConstructorInspection */
+    function __construct() {
 		$settings = parse_ini_file('user_MoffatBayReadWrite.ini');
 		$this->connection = new PDO(
 			'mysql:dbname=' .
@@ -694,22 +694,20 @@ class ReadWriteCapability extends ReadCapability {
 
 	}
 
-	function setMessageResolved(int|ContactMessage $message, bool $resolved): bool {
+	function setMessageStatus(int|ContactMessage $message, string $status): bool {
 		try {
 			$stmt = $this->connection->prepare(
 				<<<SQL
 				UPDATE ContactMessage
-				SET Resolved = :resolved
-				WHERE Id = :id
+				SET Status = :status
+				WHERE Id = :id;
 				SQL
 				);
 			$args = [
 				':id' => ($message instanceof ContactMessage) ? $message->Id : $message,
-				':resolved' => $resolved
+				':status' => $status
 				];
-			$result = $stmt->execute($args);
-
-			return result;
+			return $stmt->execute($args);
 		} catch (Exception $e) {
 			print_r($e);
 			return false;
