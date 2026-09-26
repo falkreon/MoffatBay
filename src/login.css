@@ -20,6 +20,10 @@
 	font-style: normal;
 }
 
+b {
+	font-weight: bold;
+}
+
 body {
 	min-height: 100vh;
 	background: var(--accent-color);
@@ -46,12 +50,33 @@ section {
 
 }
 
+section.user-home {
+	width: 60em;
+}
+
 section > p {
 	text-align: center;
 }
 
 h1 {
 	text-align: center;
+}
+
+.details-panel {
+	display: flex;
+	width: 60em;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1em;
+	background: var(--bg-color);
+	padding: 1.5em 8em 6em;
+	margin-bottom: 2rem;
+	border-radius: 15px;
+	box-shadow: 8px 12px rgba(0,0,0,0.25);
+}
+
+.details-panel p {
+	text-align: left;
 }
 
 .form-2col {
@@ -92,12 +117,16 @@ h1 {
 }
 
 .buttons,
-.home-actions {
+.home-actions,
+.admin-actions {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
 
+.admin-actions {
+	border: 1px solid #000;
+}
 .centered-buttons {
 	justify-content: center;
 }
@@ -175,6 +204,31 @@ input[type=button], input[type="submit"], .button {
 	padding: 8px 8px 8px 4px;
 	box-shadow: 3px 4px 0px rgba(0, 0, 0, 0.125);
 	border: 1px solid var(--secondary-accent-color);
+}
+
+.bubble {
+	display: inline-block;
+	/* doing some color mixing magic here to get 20% and 80% darker versions! */
+	border: 1px solid color-mix(in srgb, #bbb, black 20%);
+	color: color-mix(in srgb, #bbb, black 80%);
+	background: #bbb;
+	height: 32px;
+	padding-top: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	border-radius: 16px;
+}
+
+.bubble-new {
+	border: 1px solid color-mix(in srgb, var(--callout-color), black 20%);
+	color: color-mix(in srgb, var(--callout-color), black 80%);
+	background: color-mix(in srgb, var(--callout-color), white 20%);
+}
+
+.bubble-resolved {
+	border: 1px solid color-mix(in srgb, var(--secondary-accent-color), black 20%);
+	color: color-mix(in srgb, var(--secondary-accent-color), black 80%);
+	background: color-mix(in srgb, var(--secondary-accent-color), white 20%);
 }
 
 @media only screen and (max-width: 40em) {

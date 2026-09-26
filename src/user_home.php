@@ -27,9 +27,12 @@ $viewedUser = (isset($_GET['user'])) ?
 try {
 	$db = new ReadCapability();
 
+	$showOtherUsers = $db->sessionHasPermission(Permission::VIEW_OTHER_USER);
+	$showOtherReservations = $db->sessionHasPermission(Permission::VIEW_OTHER_RESERVATION);
+	$showMessages = $db->sessionHasPermission(Permission::VIEW_OTHER_CONTACT);
+
 	// Are we authorized to view this page?
-	$authorized = ($viewedUser == $_SESSION['user_id']) ||                      // Ownership, or
-		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_USER); // permission
+	$authorized = ($viewedUser == $_SESSION['user_id']) || $showOtherUsers;
 
 	if (!$authorized) {
 		header('Location: unauthorized.php');
@@ -38,13 +41,13 @@ try {
 	$user = $db->getUser($viewedUser);
 
 	// Get reservation list if we got em
-	$authReservationList = ($viewedUser == $_SESSION['user_id']) ||
-		$db->hasPermission((int) $_SESSION['user_id'], Permission::VIEW_OTHER_RESERVATION);
+	$authReservationList = ($viewedUser == $_SESSION['user_id']) || $showOtherReservations;
 	if ($authReservationList) {
 		$rooms = $db->getReservations($viewedUser);
 	} else {
 		$rooms = false;
 	}
+
 
 } catch (Throwable $e) {
 	header('Location: login_error.php');
@@ -67,7 +70,7 @@ try {
 <body>
 	<?php require 'header.php'; ?>
 	<div class="center">
-	<section>
+	<section class="user-home">
 		<?php
 		if ($user === false) {
 			?>
@@ -88,6 +91,14 @@ try {
 				<a class="button" href="logout.php">Log Out</a>
 				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
 			</div>
+			<?php }
+
+			if ($showOtherUsers || $showMessages) { ?>
+				<h2>Admin Actions:</h2>
+				<div class="admin-actions">
+					<?php if ($showOtherUsers) { ?><a class="button" href="find_user.php">Find User</a><?php } ?>
+					<?php if ($showMessages) { ?><a class="button" href="message_list.php">View Contact Us Messages</a><?php } ?>
+				</div>
 			<?php }
 
 			if ($rooms !== false && sizeof($rooms) > 0) { ?>
