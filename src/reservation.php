@@ -70,10 +70,8 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 
                     guestsDropdown.disabled = false;
                 }
-
             }
         </script>
-
 
 	</head>
 
@@ -91,29 +89,30 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 		<section class="reservation">
 
 			<!-- Display the price rates for different room types -->
-			<div class="price-rates">
-				<h2>Price Rate:</h2>
-				 <p>Double full beds: $126.00 per night</p>
-				 <p>Queen : $141.75 per night</p>
-				 <p>Double queen beds: $157.50 per night</p>
-				 <p>King : $168.00 per night</p>
-			</div>
+			<table class="price-rates">
+				<tr><th colspan="2"><h2>Price Rate:</h2></th></tr>
+				<?php
+				foreach ($roomTypes as $roomType) {
+					echo "<tr><td>{$roomType->Name}</td><td>{$roomType->NightlyRate}</td></tr>";
+				}
+				?>
+			</table>
 
 	<!-- Reservation form part. Sends reservation detail to reservation_summary.php -->
 	<form class="reservation-form" 
 				  method="post" 
 				  action="reservation_summary.php">
 
-		<section class="section-reservation-form">
+		<section class=	"section-reservation-form">
 				
-			<!-- Room size dropdown menu gets the available room types from the database -->
+			<!-- Room size dropdown menu gets the available room types and priceratesfrom the database -->
 			<div class="room-size">
 				<h2>Room size</h2>
 				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()">
 					<option value="">Select a room size</option>
 					<?php
 					foreach ($roomTypes as $roomType) {
-						echo "<option value=\"{$roomType->Id}\">{$roomType->Name}</option>";
+						echo "<option value=\"{$roomType->Id}\" price-rate =\"{$roomType->NightlyRate}\">{$roomType->Name} - \${$roomType->NightlyRate} per night</option>";
 					}
 					?>
 				</select>
@@ -152,27 +151,62 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 						appendTo:  document.getElementById("calendar"),
 						dateFormat: "Y-m-d",
 						onChange: function(selectedDates, dateStr, instance) {
+						// If only one date is selected, this date is set to checkin, 
+						// checkout date is cleared to avoid incorrect values displayed on cost calculation,
+						//and the total cost is reset.
 						if (selectedDates.length===1) {
 							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
+							
+							document.getElementById("checkoutDate").value = "";
+							document.getElementById("total-cost"). innerHTML = "0.00";
 							}
-							// makes it impossible to have the check-out date before the check-in date.
+
+						// Sets the first date as check in and the second date as check out,
+						// making it impossible to have check-out befor check-in.
+						// If two dates are selected, set the check-in and check-out dates and calculate the total cost.
 						if (selectedDates.length===2) {
 							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
 							document.getElementById("checkoutDate").value = instance.formatDate(selectedDates[1], "Y-m-d");
+						// the calculation requires to divide the date difference by the number of milliseconds in a day,
+						// as JS stores dates in milliseconds.
+							const nights = (selectedDates[1]- selectedDates[0]) / 86400000;
+							
+							calculateTotalCost(nights);
 							}
-							}
-					});
+					}});
 				</script>
+
+			<!-- total cost display -->
+			<div class="total-cost">
+				<p>Total Cost: $<span id="total-cost">0.00</span></p>
+				<script>
+					// Function that calculates the total cost 
+					// based on the number of nights and selected room type.
+					function calculateTotalCost(nights) {
+						const roomSelect = document.getElementById("roomtype");
+						const selectedRoom =roomSelect.options[roomSelect.selectedIndex];
+						const price = selectedRoom.getAttribute("price-rate");
+	
+						const totalCost = price * nights;
+						// modify the total cost displayed with two decimal places,
+						// according to the reservation.
+						document.getElementById("total-cost").innerHTML = totalCost.toFixed(2);
+						return totalCost;
+					}
+				</script>
+			</div>
 
 			<!-- Comments section for special requests -->
 			<div class="comments">
 				<h2>Special requests or comments</h2>
 				<textarea name="comments"></textarea>
 			</div>
-		</section>
 
+			
+		</section>
 		<!-- Reservation submit button -->
-		<button class="reservation-button" type="submit">Book Your Reservation</button>
+		<button class="reservation-button" type="submit">Continue</button>
+
 	</form>
 		
 	</body>

@@ -32,18 +32,26 @@ body {
 
 .price-rates {
     width: 100%;
+    max-width: 250px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 15px;
+    background: var(--accent-color);
+    box-shadow: 8px 12px rgba(0,0,0,0.25);
+}
+
+.price-rates th, .price-rates td {
     padding: 1rem;
 }
 
 .reservation-form {
     width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
 }
 
 .section-reservation-form {
     display: flex;
     flex-direction: column;
+    max-width: 800px;
     gap: 2em;
     background: var(--accent-color);
     padding: 1.5em;
@@ -85,6 +93,14 @@ body {
 	font-weight: 600;
 }
 
+/* Total Cost Section */
+.total-cost {
+    background: var(--secondary-accent-color);
+    padding: 0.25em 1em;
+    border-radius: 15px;
+    border:1px solid gray;
+}
+
 /* Comments Section */
 .comments {
     background: var(--secondary-accent-color);
@@ -101,6 +117,7 @@ body {
 .comments textarea {
     width: 100%;
     height: 6em;
+    font-size: 1rem;
 }
 
 /* Reservation Button */
@@ -108,14 +125,17 @@ body {
     -webkit-appearance: none;
     appearance: none;
     display: block;
-    margin: 0.5rem 0 2rem auto;
+    margin: 0.5rem auto 2rem;
     padding: 0.75em;
     font-size: 1rem;
+    border: black 1px solid;
     border-radius: 6px;
     background: var(--callout-gradient);
+    box-shadow: 4px 5px rgba(0,0,0,0.25);
     color: #000;
-    border: 1px solid #000;
     cursor: pointer;
+    margin-right: 26%;
+   
 }
 
 /* Media Queries - for larger screens */
@@ -125,14 +145,14 @@ body {
         position: absolute;
         left: 40%;
         margin-left: -600px;
-        top: 1rem;
         width: 250px;
     }
 
     .section-reservation-form {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        max-width: 700px;
+        max-width: 800px;
+        margin: 0 auto 2rem;
     }
 
     .room-size, .reservation-dates{
@@ -141,6 +161,7 @@ body {
 
     .guests {
         grid-column: 2;
+        justify-self: start;
     }
 
     .reservation-dates input {
@@ -155,8 +176,14 @@ body {
         grid-row: 2;
     }
 
+    .total-cost {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: center;
+    }
+
     .comments {
         grid-column: 1 / -1;
-        grid-row: 3;
+        grid-row: 4;
     }
 }
