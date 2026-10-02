@@ -22,7 +22,7 @@
 @view-transition {
 	navigation: auto;
 }
-/* prevents the header from participating in the transition */
+/* prevents the header to participate in the transition */
 header {
 	view-transition-name: header;
 }
