@@ -205,7 +205,9 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 			
 		</section>
 		<!-- Reservation submit button -->
+		 <div class="reservation-button-container">
 		<button class="reservation-button" type="submit">Continue</button>
+		</div>
 
 	</form>
 		

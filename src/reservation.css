@@ -32,7 +32,7 @@ body {
 
 .price-rates {
     width: 100%;
-    max-width: 250px;
+    max-width: 800px;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 15px;
@@ -121,11 +121,15 @@ body {
 }
 
 /* Reservation Button */
-.reservation-button {
+.reservation-button-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.reservation-button-container .reservation-button {
     -webkit-appearance: none;
     appearance: none;
     display: block;
-    margin: 0.5rem auto 2rem;
+    margin: 1rem 0 1rem auto;
     padding: 0.75em;
     font-size: 1rem;
     border: black 1px solid;
@@ -134,8 +138,8 @@ body {
     box-shadow: 4px 5px rgba(0,0,0,0.25);
     color: #000;
     cursor: pointer;
-    margin-right: 26%;
-   
+
+    
 }
 
 /* Media Queries - for larger screens */
@@ -146,6 +150,7 @@ body {
         left: 40%;
         margin-left: -600px;
         width: 250px;
+        max-width: 800px;
     }
 
     .section-reservation-form {
