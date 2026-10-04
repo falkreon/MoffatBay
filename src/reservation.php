@@ -69,6 +69,13 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
                     }
 
                     guestsDropdown.disabled = false;
+				
+				// Clears the calendar, resets checkin, checkout dates and total cost to avoid
+				// displaying incorrect price when changing the room type.
+				calendar.clear();
+				document.getElementById("checkinDate").value="";
+				document.getElementById("checkoutDate").value="";
+				document.getElementById("total-cost").innerHTML = "0.00";
                 }
             }
         </script>
@@ -144,7 +151,9 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 			<div class= "calendar" id="calendar"></div>
 				<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 				<script>
-					flatpickr(".calendar", {
+					// create an instance of flatpickr. (use const because we won't need
+					// to reassign the constant calendar to something else.)
+					const calendar = flatpickr(".calendar", {
 						mode: "range",
 						minDate: "today",
 						inline: true,
