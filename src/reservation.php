@@ -45,40 +45,88 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 		<link rel="stylesheet" href="reservation.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script>
-            const ROOM_OCCUPANCY = [
-            <?php
-                foreach ($roomTypes as $roomType) {
-                    echo $roomType->MaxGuests . ","; // Trailing commas are allowed in js
-                }
-            ?>
-            ];
-
-            function onSelectRoomType() {
-                let index = document.getElementById("roomtype").selectedIndex - 1;
-                let guestsDropdown = document.getElementById("guest_count");
-                if (index < 0) {
-                    guestsDropdown.replaceChildren();
-                    guestsDropdown.disabled = true;
-                } else {
-                    guestsDropdown.replaceChildren();
-                    let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
-                    for(let i = 0; i<maxGuests; i++) {
-                        // https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
-                        guestsDropdown.add(new Option((i+1) + ' guests'));
-                    }
-
-                    guestsDropdown.disabled = false;
+		<script>
+			const ROOM_OCCUPANCY = [
+			<?php
+				foreach ($roomTypes as $roomType) {
+					echo $roomType->MaxGuests . ","; // Trailing commas are allowed in js
+				}
+			?>
+			];
+			
+			/**
+			 * Responds to RoomType selection by populating the occupancy dropdown, and updating
+			 * the price preview.
+			 */
+			function onSelectRoomType() {
+				let index = document.getElementById("roomtype").selectedIndex - 1;
+				let guestsDropdown = document.getElementById("guest_count");
+				if (index < 0) {
+					guestsDropdown.replaceChildren();
+					guestsDropdown.disabled = true;
+				} else {
+					guestsDropdown.replaceChildren();
+					let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
+					for(let i = 0; i<maxGuests; i++) {
+						// https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
+						guestsDropdown.add(new Option((i+1) + ' guests'));
+					}
+					
+					guestsDropdown.disabled = false;
+				}
+				showTotalCost();
+			}
+			
+			/**
+			 * Returns an object containing the computed state of the form, which will look like:
+			 * { checkIn, checkOut, nights, price, total }
+			 * 
+			 * checkIn, checkOut, and total are formatted strings for display.
+			 * 
+			 * If the date selection is not yet valid, checkIn will be set, checkOut will be "",
+			 * and price will be "0.00".
+			 */
+			function getCost() {
+				let result = {};
 				
-				// Clears the calendar, resets checkin, checkout dates and total cost to avoid
-				// displaying incorrect price when changing the room type.
-				calendar.clear();
-				document.getElementById("checkinDate").value="";
-				document.getElementById("checkoutDate").value="";
-				document.getElementById("total-cost").innerHTML = "0.00";
-                }
-            }
-        </script>
+				if (calendar.selectedDates.length==1) {
+					// Date range is not yet valid, so report the checkIn and then zeroed out data.
+					result.checkIn = calendar.formatDate(calendar.selectedDates[0], "Y-m-d");
+					result.checkOut = "";
+					result.nights = 0;
+					result.price = 0;
+					result.total = "0.00";
+				} else if (calendar.selectedDates.length>=2) {
+					// Date range is valid. Pull the dates from the form...
+					result.checkIn = calendar.formatDate(calendar.selectedDates[0], "Y-m-d");
+					result.checkOut = calendar.formatDate(calendar.selectedDates[1], "Y-m-d");
+					result.nights = (calendar.selectedDates[1] - calendar.selectedDates[0]) / 86400000;
+					
+					// Pull the roomType...
+					const roomSelect = document.getElementById("roomtype");
+					const selectedRoom = roomSelect.options[roomSelect.selectedIndex];
+					// Find the roomType's price...
+					result.price = selectedRoom.getAttribute("price-rate");
+					
+					// ... and report the total cost.
+					result.total = (result.price * result.nights).toFixed(2);
+				}
+				
+				// Whether we made a dummy object or a full one, send it.
+				return result;
+			}
+			
+			/**
+			 * Grabs the current state of the form, and updates the date inputs and the price preview.
+			 */
+			function showTotalCost() {
+				const cost = getCost();
+				
+				document.getElementById("checkinDate").value = cost.checkIn;
+				document.getElementById("checkoutDate").value = cost.checkOut;
+				document.getElementById("total-cost").innerHTML = cost.total;
+			}
+		</script>
 
 	</head>
 
@@ -116,7 +164,8 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 			<div class="room-size">
 				<h2>Room size</h2>
 				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()">
-					<option value="">Select a room size</option>
+					<!-- Includes a zero price rate here, to easily zero out the total when no roomType's selected. -->
+					<option value="" price-rate="0">Select a room size</option>
 					<?php
 					foreach ($roomTypes as $roomType) {
 						echo "<option value=\"{$roomType->Id}\" price-rate =\"{$roomType->NightlyRate}\">{$roomType->Name} - \${$roomType->NightlyRate} per night</option>";
@@ -160,49 +209,15 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 						appendTo:  document.getElementById("calendar"),
 						dateFormat: "Y-m-d",
 						onChange: function(selectedDates, dateStr, instance) {
-						// If only one date is selected, this date is set to checkin, 
-						// checkout date is cleared to avoid incorrect values displayed on cost calculation,
-						//and the total cost is reset.
-						if (selectedDates.length===1) {
-							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
-							
-							document.getElementById("checkoutDate").value = "";
-							document.getElementById("total-cost"). innerHTML = "0.00";
-							}
-
-						// Sets the first date as check in and the second date as check out,
-						// making it impossible to have check-out befor check-in.
-						// If two dates are selected, set the check-in and check-out dates and calculate the total cost.
-						if (selectedDates.length===2) {
-							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
-							document.getElementById("checkoutDate").value = instance.formatDate(selectedDates[1], "Y-m-d");
-						// the calculation requires to divide the date difference by the number of milliseconds in a day,
-						// as JS stores dates in milliseconds.
-							const nights = (selectedDates[1]- selectedDates[0]) / 86400000;
-							
-							calculateTotalCost(nights);
-							}
-					}});
+							// When the calendar dates change, we need to update the date controls and displayed total cost.
+							showTotalCost();
+						}
+					});
 				</script>
 
 			<!-- total cost display -->
 			<div class="total-cost">
-				<p>Total Cost: $<span id="total-cost">0.00</span></p>
-				<script>
-					// Function that calculates the total cost 
-					// based on the number of nights and selected room type.
-					function calculateTotalCost(nights) {
-						const roomSelect = document.getElementById("roomtype");
-						const selectedRoom =roomSelect.options[roomSelect.selectedIndex];
-						const price = selectedRoom.getAttribute("price-rate");
-	
-						const totalCost = price * nights;
-						// modify the total cost displayed with two decimal places,
-						// according to the reservation.
-						document.getElementById("total-cost").innerHTML = totalCost.toFixed(2);
-						return totalCost;
-					}
-				</script>
+				Total Cost: $<span id="total-cost">0.00</span>
 			</div>
 
 			<!-- Comments section for special requests -->
