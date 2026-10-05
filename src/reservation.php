@@ -87,18 +87,22 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 			 * and price will be "0.00".
 			 */
 			function getCost() {
-				let result = {};
+				let result = {
+					checkIn: "",
+					checkOut: "",
+					nights: 0,
+					price: 0,
+					total: "0.00"
+				};
 				
-				if (calendar.selectedDates.length==1) {
-					// Date range is not yet valid, so report the checkIn and then zeroed out data.
+				if (calendar.selectedDates.length>=1) {
+					// Start date is valid, so grab that, but don't necessarily fill in the
+					// pricing yet.
 					result.checkIn = calendar.formatDate(calendar.selectedDates[0], "Y-m-d");
-					result.checkOut = "";
-					result.nights = 0;
-					result.price = 0;
-					result.total = "0.00";
-				} else if (calendar.selectedDates.length>=2) {
+				}
+				
+				if (calendar.selectedDates.length>=2) {
 					// Date range is valid. Pull the dates from the form...
-					result.checkIn = calendar.formatDate(calendar.selectedDates[0], "Y-m-d");
 					result.checkOut = calendar.formatDate(calendar.selectedDates[1], "Y-m-d");
 					result.nights = (calendar.selectedDates[1] - calendar.selectedDates[0]) / 86400000;
 					
