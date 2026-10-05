@@ -45,35 +45,92 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 		<link rel="stylesheet" href="reservation.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script>
-            const ROOM_OCCUPANCY = [
-            <?php
-                foreach ($roomTypes as $roomType) {
-                    echo $roomType->MaxGuests . ","; // Trailing commas are allowed in js
-                }
-            ?>
-            ];
-
-            function onSelectRoomType() {
-                let index = document.getElementById("roomtype").selectedIndex - 1;
-                let guestsDropdown = document.getElementById("guest_count");
-                if (index < 0) {
-                    guestsDropdown.replaceChildren();
-                    guestsDropdown.disabled = true;
-                } else {
-                    guestsDropdown.replaceChildren();
-                    let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
-                    for(let i = 0; i<maxGuests; i++) {
-                        // https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
-                        guestsDropdown.add(new Option((i+1) + ' guests'));
-                    }
-
-                    guestsDropdown.disabled = false;
-                }
-
-            }
-        </script>
-
+		<script>
+			const ROOM_OCCUPANCY = [
+			<?php
+				foreach ($roomTypes as $roomType) {
+					echo $roomType->MaxGuests . ","; // Trailing commas are allowed in js
+				}
+			?>
+			];
+			
+			/**
+			 * Responds to RoomType selection by populating the occupancy dropdown, and updating
+			 * the price preview.
+			 */
+			function onSelectRoomType() {
+				let index = document.getElementById("roomtype").selectedIndex - 1;
+				let guestsDropdown = document.getElementById("guest_count");
+				if (index < 0) {
+					guestsDropdown.replaceChildren();
+					guestsDropdown.disabled = true;
+				} else {
+					guestsDropdown.replaceChildren();
+					let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
+					for(let i = 0; i<maxGuests; i++) {
+						// https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
+						guestsDropdown.add(new Option((i+1) + ' guests'));
+					}
+					
+					guestsDropdown.disabled = false;
+				}
+				showTotalCost();
+			}
+			
+			/**
+			 * Returns an object containing the computed state of the form, which will look like:
+			 * { checkIn, checkOut, nights, price, total }
+			 * 
+			 * checkIn, checkOut, and total are formatted strings for display.
+			 * 
+			 * If the date selection is not yet valid, checkIn will be set, checkOut will be "",
+			 * and price will be "0.00".
+			 */
+			function getCost() {
+				let result = {
+					checkIn: "",
+					checkOut: "",
+					nights: 0,
+					price: 0,
+					total: "0.00"
+				};
+				
+				if (calendar.selectedDates.length>=1) {
+					// Start date is valid, so grab that, but don't necessarily fill in the
+					// pricing yet.
+					result.checkIn = calendar.formatDate(calendar.selectedDates[0], "Y-m-d");
+				}
+				
+				if (calendar.selectedDates.length>=2) {
+					// Date range is valid. Pull the dates from the form...
+					result.checkOut = calendar.formatDate(calendar.selectedDates[1], "Y-m-d");
+					result.nights = (calendar.selectedDates[1] - calendar.selectedDates[0]) / 86400000;
+					
+					// Pull the roomType...
+					const roomSelect = document.getElementById("roomtype");
+					const selectedRoom = roomSelect.options[roomSelect.selectedIndex];
+					// Find the roomType's price...
+					result.price = selectedRoom.getAttribute("price-rate");
+					
+					// ... and report the total cost.
+					result.total = (result.price * result.nights).toFixed(2);
+				}
+				
+				// Whether we made a dummy object or a full one, send it.
+				return result;
+			}
+			
+			/**
+			 * Grabs the current state of the form, and updates the date inputs and the price preview.
+			 */
+			function showTotalCost() {
+				const cost = getCost();
+				
+				document.getElementById("checkinDate").value = cost.checkIn;
+				document.getElementById("checkoutDate").value = cost.checkOut;
+				document.getElementById("total-cost").innerHTML = cost.total;
+			}
+		</script>
 
 	</head>
 
@@ -91,29 +148,31 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 		<section class="reservation">
 
 			<!-- Display the price rates for different room types -->
-			<div class="price-rates">
-				<h2>Price Rate:</h2>
-				 <p>Double full beds: $126.00 per night</p>
-				 <p>Queen : $141.75 per night</p>
-				 <p>Double queen beds: $157.50 per night</p>
-				 <p>King : $168.00 per night</p>
-			</div>
+			<table class="price-rates">
+				<tr><th colspan="2"><h2>Price Rate:</h2></th></tr>
+				<?php
+				foreach ($roomTypes as $roomType) {
+					echo "<tr><td>{$roomType->Name}</td><td>{$roomType->NightlyRate}</td></tr>";
+				}
+				?>
+			</table>
 
 	<!-- Reservation form part. Sends reservation detail to reservation_summary.php -->
 	<form class="reservation-form" 
 				  method="post" 
 				  action="reservation_summary.php">
 
-		<section class="section-reservation-form">
+		<section class=	"section-reservation-form">
 				
-			<!-- Room size dropdown menu gets the available room types from the database -->
+			<!-- Room size dropdown menu gets the available room types and priceratesfrom the database -->
 			<div class="room-size">
 				<h2>Room size</h2>
 				<select name="RoomType" id="roomtype" onchange="onSelectRoomType()">
-					<option value="">Select a room size</option>
+					<!-- Includes a zero price rate here, to easily zero out the total when no roomType's selected. -->
+					<option value="" price-rate="0">Select a room size</option>
 					<?php
 					foreach ($roomTypes as $roomType) {
-						echo "<option value=\"{$roomType->Id}\">{$roomType->Name}</option>";
+						echo "<option value=\"{$roomType->Id}\" price-rate =\"{$roomType->NightlyRate}\">{$roomType->Name} - \${$roomType->NightlyRate} per night</option>";
 					}
 					?>
 				</select>
@@ -145,34 +204,39 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 			<div class= "calendar" id="calendar"></div>
 				<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 				<script>
-					flatpickr(".calendar", {
+					// create an instance of flatpickr. (use const because we won't need
+					// to reassign the constant calendar to something else.)
+					const calendar = flatpickr(".calendar", {
 						mode: "range",
 						minDate: "today",
 						inline: true,
 						appendTo:  document.getElementById("calendar"),
 						dateFormat: "Y-m-d",
 						onChange: function(selectedDates, dateStr, instance) {
-						if (selectedDates.length===1) {
-							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
-							}
-							// makes it impossible to have the check-out date before the check-in date.
-						if (selectedDates.length===2) {
-							document.getElementById("checkinDate").value = instance.formatDate(selectedDates[0], "Y-m-d");
-							document.getElementById("checkoutDate").value = instance.formatDate(selectedDates[1], "Y-m-d");
-							}
-							}
+							// When the calendar dates change, we need to update the date controls and displayed total cost.
+							showTotalCost();
+						}
 					});
 				</script>
+
+			<!-- total cost display -->
+			<div class="total-cost">
+				Total Cost: $<span id="total-cost">0.00</span>
+			</div>
 
 			<!-- Comments section for special requests -->
 			<div class="comments">
 				<h2>Special requests or comments</h2>
 				<textarea name="comments"></textarea>
 			</div>
-		</section>
 
+			
+		</section>
 		<!-- Reservation submit button -->
-		<button class="reservation-button" type="submit">Book Your Reservation</button>
+		 <div class="reservation-button-container">
+		<button class="reservation-button" type="submit">Continue</button>
+		</div>
+
 	</form>
 		
 	</body>
