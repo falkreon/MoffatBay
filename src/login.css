@@ -107,6 +107,74 @@ h1 {
 	padding: 5px;
 }
 
+/* Use one consistent password reveal control instead of built-in icon. */
+input::-ms-reveal,
+input::-ms-clear {
+	display: none;
+}
+
+.password-field {
+	display: inline-flex;
+	position: relative;
+	width: 60%;
+	vertical-align: middle;
+}
+
+.form-2col p .password-field input {
+	width: 100%;
+	padding-right: 2.75rem;
+}
+
+.password-toggle {
+	position: absolute;
+	top: 50%;
+	right: 0.4rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	padding: 0.25rem;
+	margin: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: var(--text-color);
+	cursor: pointer;
+	transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+	background: rgba(0,0,0,0.08);
+}
+
+.password-toggle:focus-visible {
+	outline: 2px solid var(--text-color);
+	outline-offset: 1px;
+}
+
+.password-icon {
+	width: 1.4rem;
+	height: 1.4rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.password-icon-hide {
+	display: none;
+}
+
+.password-toggle[aria-pressed="true"] .password-icon-show {
+	display: none;
+}
+
+.password-toggle[aria-pressed="true"] .password-icon-hide {
+	display: block;
+}
+
 .search-form {
 	width: 100%;
 }

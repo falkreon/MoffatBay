@@ -42,6 +42,17 @@ if (isset($_GET['source'])) {
 		valid &= document.getElementById("password").checkValidity();
 		document.getElementById("login").disabled = !valid;
 	}
+
+	function togglePasswordVisibility(inputId, button) {
+		const passwordInput = document.getElementById(inputId);
+		const showPassword = passwordInput.type === "password";
+		const buttonLabel = showPassword ? "Hide password" : "Show password";
+
+		passwordInput.type = showPassword ? "text" : "password";
+		button.setAttribute("aria-pressed", showPassword ? "true" : "false");
+		button.setAttribute("aria-label", buttonLabel);
+		button.setAttribute("title", buttonLabel);
+	}
 	</script>
 </head>
 <body>
@@ -70,10 +81,25 @@ if (isset($_GET['source'])) {
 			</p>
 
 			<p><label for="password">Password</label>
-			   <input type="password" name="password" id="password"
-			   oninput="updateButton();"
-			   autocomplete="current-password"
-			   required>
+				<span class="password-field">
+					<input type="password" name="password" id="password"
+					oninput="updateButton();"
+					autocomplete="current-password"
+					required>
+					<button type="button" class="password-toggle"
+						onclick="togglePasswordVisibility('password', this)"
+						aria-controls="password" aria-label="Show password"
+						aria-pressed="false" title="Show password">
+						<svg class="password-icon password-icon-show" viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+							<circle cx="12" cy="12" r="3"></circle>
+						</svg>
+						<svg class="password-icon password-icon-hide" viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M3 3l18 18"></path>
+							<path d="M10.6 6.2A11.4 11.4 0 0 1 12 6c6.5 0 10 6 10 6a18.4 18.4 0 0 1-3 3.7M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.5 0 2.8-.3 4-.8"></path>
+						</svg>
+					</button>
+				</span>
 			</p>
 
 			<div class="buttons">
