@@ -90,10 +90,11 @@ try {
 			<div class="home-actions">
 				<a class="button" href="logout.php">Log Out</a>
 				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
+				<a class="button" href="about_us.php#contact-us">Questions? Contact Us!</a>
 			</div>
 			<?php }
 
-			if (($_SESSION['user_id'] == $viewedUser) && ($showOtherUsers || $showMessages)) { ?>
+			if ($showOtherUsers || $showMessages) { ?>
 				<h2>Admin Actions:</h2>
 				<div class="admin-actions">
 					<?php if ($showOtherUsers) { ?><a class="button" href="find_user.php">Find User</a><?php } ?>
