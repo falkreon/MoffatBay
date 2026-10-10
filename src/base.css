@@ -80,7 +80,7 @@ body {
 	--accent-gradient: linear-gradient(#A6D9F7, #419fe7);
 	--callout-gradient: linear-gradient(#f9b285, #F57C2F);
 	--secondary-accent-color: #84DCCF;
-	--secondary-accent-gradient: linear-gradient(#84DCCF, #3ba99c);
+	--secondary-accent-gradient: linear-gradient(#a1ded7, #3ba99c);
 }
 
 html {
@@ -152,8 +152,9 @@ nav a:hover {
 	display: flex;
 	flex-direction: row;
 	justify-content: stretch;
+	align-items: center;
 	background: var(--bg-color);
-	padding: 8px;
+	padding: 4px;
 	flex-grow: 1;
 }
 
@@ -172,15 +173,33 @@ nav a:hover {
 }
 
 .user-links {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
 	flex-direction: row;
+	align-items: stretch;
 }
 
 .user-links a {
+	display: flex;
 	flex-grow: 1;
 	text-decoration: none;
 	font-weight: bold;
+	min-height: 38px;
+	background: var(--secondary-accent-gradient);
 	color: var(--text-color);
+	border: 1px solid #777;
+	border-radius: 7px;
+	padding: 2px;
+	
+	align-items: center;
+}
+
+.user-links a span {
+	display: inline;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
 }
 
 .user-links a:hover {
@@ -193,6 +212,8 @@ nav a:hover {
 	width: 64px;
 	height: 64px;
 	border-radius: 32px;
+	border: 2px solid #777;
+	background: #bbb;
 }
 
 /* Contact Us confirmation page */
