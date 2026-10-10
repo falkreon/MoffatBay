@@ -132,20 +132,20 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         <section class="reservation-summary">
             <div class="reservation-details">
                 <!-- Reservation Information pulled from the d -->
-                <p><strong>Room Type:</strong> <?php echo htmlspecialchars($selectedRoomType->Name); ?></p>
-                <p><strong>Rate per Night:</strong> $<?php echo number_format((float) $selectedRoomType->NightlyRate, 2); ?></p>
+                <p><strong>Room Type:</strong> <?= htmlspecialchars($selectedRoomType->Name) ?></p>
+                <p><strong>Rate per Night:</strong> $<?= number_format((float) $selectedRoomType->NightlyRate, 2) ?></p>
                 <br>
-                <p><strong>Check-in Date:</strong> <?php echo htmlspecialchars($checkIn); ?></p>
-                <p><strong>Check-out Date:</strong> <?php echo htmlspecialchars($checkOut); ?></p>
+                <p><strong>Check-in Date:</strong> <?= htmlspecialchars($checkIn) ?></p>
+                <p><strong>Check-out Date:</strong> <?= htmlspecialchars($checkOut) ?></p>
                 <br>
-                <p><strong>Number of Nights:</strong> <?php echo($numberOfNights); ?></p>
-                <p><strong>Number of Guests:</strong> <?php echo($guestCount); ?></p>
+                <p><strong>Number of Nights:</strong> <?= (int) $numberOfNights ?></p>
+                <p><strong>Number of Guests:</strong> <?= (int) $guestCount ?></p>
                 <br>
-                <p><strong>Total Cost:</strong> $<?php echo(number_format((float)$totalCost, 2)); ?></p>
+                <p><strong>Total Cost:</strong> $<?= number_format((float) $totalCost, 2) ?></p>
                 <br>
                 <!-- Display special requests if any, htmlspecialchars is used to prevent XSS -->
                 <?php if (!empty($comments)) : ?>
-                    <p><strong>Comments:</strong> <?php echo htmlspecialchars($comments); ?></p>
+                    <p><strong>Comments:</strong> <?= nl2br(htmlspecialchars($comments)) ?></p>
                 <?php endif; ?>
             </div>
         </section>
@@ -155,11 +155,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             <a href="reservation.php" class="edit-button">Edit Reservation</a>
             <!-- Form for confirming the reservation -->
             <form method="post" action="reservation_summary.php" class='confirm-form'>
-                <input type="hidden" name="RoomType" value="<?php echo($roomTypeId); ?>">
-                <input type="hidden" name="guest_count" value="<?php echo ($guestCount); ?>">
-                <input type="hidden" name="check_in" value="<?php echo htmlspecialchars($checkIn); ?>">
-                <input type="hidden" name="check_out" value="<?php echo htmlspecialchars($checkOut); ?>">
-                <input type="hidden" name="comments" value="<?php echo htmlspecialchars($comments); ?>">
+                <input type="hidden" name="RoomType" value="<?= (int) $roomTypeId ?>">
+                <input type="hidden" name="guest_count" value="<?= (int) $guestCount ?>">
+                <input type="hidden" name="check_in" value="<?= htmlspecialchars($checkIn) ?>">
+                <input type="hidden" name="check_out" value="<?= htmlspecialchars($checkOut) ?>">
+                <input type="hidden" name="comments" value="<?= htmlspecialchars($comments) ?>">
                 <button type="submit" name="confirm_reservation" class="confirm-button">Confirm Reservation</button>
             </form>
         </div>

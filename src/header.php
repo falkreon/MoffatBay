@@ -42,11 +42,11 @@ declare(strict_types=1);
 				<div class="username"><?= $header_user->FirstName . ' ' . $header_user->LastName ?></div>
 
 				<div class="user-links">
-					<a href="logout.php">Log Out</a>
-					<a href="user_home.php">Profile</a>
+					<a href="logout.php"><span>Logout</span></a>
+					<a href="user_home.php"><span>Profile</span></a>
 				</div>
 			</div>
-			<img src="pictures/user.png" width="64px" height="64px">
+			<img src="pictures/user_active.png" width="64px" height="64px">
 		<?php
 			}
 		}
@@ -57,11 +57,11 @@ declare(strict_types=1);
 				<div class="username">Not Logged In</div>
 
 				<div class="user-links">
-					<a href="login.php">Log In</a>
-					<a href="register.php">Sign Up</a>
+					<a href="login.php"><span>Log In</span></a>
+					<a href="register.php"><span>Sign Up</span></a>
 				</div>
 			</div>
-			<img src="pictures/user.png" width="64px" height="64px">
+			<img src="pictures/user_inactive.png" width="64px" height="64px">
 		<?php
 		}
 		?>
