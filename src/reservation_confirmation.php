@@ -80,20 +80,20 @@ $numberOfNights = $checkOutDate->diff($checkInDate)->days;
             <div class="reservation-details">
                 <h3>Reservation Information</h3>
                 
-                <p><strong>Confirmation Number:</strong> <?php echo htmlspecialchars($reservation->ConfirmationNumber); ?></p>
-                <p><strong>Room Type:</strong> <?php echo htmlspecialchars($roomType->Name); ?></p>
-                <p><strong>Rate per Night:</strong> $<?php echo number_format((float) $roomType->NightlyRate, 2); ?></p>
+                <p><strong>Confirmation Number:</strong> <?= htmlspecialchars($reservation->ConfirmationNumber); ?></p>
+                <p><strong>Room Type:</strong> <?= htmlspecialchars($roomType->Name); ?></p>
+                <p><strong>Rate per Night:</strong> $<?= number_format((float) $roomType->NightlyRate, 2); ?></p>
                 
-                <p><strong>Check-in Date:</strong> <?php echo htmlspecialchars($reservation->CheckIn); ?></p>
-                <p><strong>Check-out Date:</strong> <?php echo htmlspecialchars($reservation->CheckOut); ?></p>
+                <p><strong>Check-in Date:</strong> <?= htmlspecialchars($reservation->CheckIn); ?></p>
+                <p><strong>Check-out Date:</strong> <?= htmlspecialchars($reservation->CheckOut); ?></p>
                 
-                <p><strong>Number of Nights:</strong> <?php echo($numberOfNights); ?></p>
-                <p><strong>Number of Guests:</strong> <?php echo($reservation->GuestCount); ?></p>
+                <p><strong>Number of Nights:</strong> <?= (int) $numberOfNights ?></p>
+                <p><strong>Number of Guests:</strong> <?= (int) $reservation->GuestCount ?></p>
                 
-                <p><strong>Total Cost:</strong> $<?php echo (number_format((float)$reservation->QuotedPrice, 2)); ?></p>
+                <p><strong>Total Cost:</strong> $<?= number_format((float) $reservation->QuotedPrice, 2) ?></p>
                 
                 <?php if (!empty($reservation->SpecialRequests)) : ?>
-                    <p><strong>Comments:</strong> <?php echo htmlspecialchars($reservation->SpecialRequests); ?></p>
+                    <p><strong>Comments:</strong> <?= nl2br(htmlspecialchars($reservation->SpecialRequests)) ?></p>
                 <?php endif; ?>
             </div>
 
