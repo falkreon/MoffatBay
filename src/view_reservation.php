@@ -86,14 +86,14 @@ try {
 				<p><strong>Check-in Date:</strong> <?= htmlspecialchars($res->CheckIn) ?></p>
 				<p><strong>Check-out Date:</strong> <?= htmlspecialchars($res->CheckOut) ?></p>
 				<br>
-				<p><strong>Number of Nights:</strong> <?= $numberOfNights ?></p>
-				<p><strong>Number of Guests:</strong> <?= $res->GuestCount ?></p>
+				<p><strong>Number of Nights:</strong> <?= (int) $numberOfNights ?></p>
+				<p><strong>Number of Guests:</strong> <?= (int) $res->GuestCount ?></p>
 				<br>
-				<p><strong>Total Cost:</strong> $<?= number_format((float)$res->QuotedPrice, 2) ?></p>
+				<p><strong>Total Cost:</strong> $<?= number_format((float) $res->QuotedPrice, 2) ?></p>
 				<br>
 				<!-- Display special requests if any, htmlspecialchars is used to prevent XSS -->
 				<?php if (!empty($res->SpecialRequests)) : ?>
-					<p><strong>Comments:</strong> <?= htmlspecialchars($res->SpecialRequests) ?></p>
+					<p><strong>Comments:</strong> <?= nl2br(htmlspecialchars($res->SpecialRequests)) ?></p>
 				<?php endif; ?>
 
 				<?php if ($showEdit) { ?>

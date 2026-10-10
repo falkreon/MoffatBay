@@ -93,7 +93,7 @@ try {
 			</div>
 			<?php }
 
-			if ($showOtherUsers || $showMessages) { ?>
+			if (($_SESSION['user_id'] == $viewedUser) && ($showOtherUsers || $showMessages)) { ?>
 				<h2>Admin Actions:</h2>
 				<div class="admin-actions">
 					<?php if ($showOtherUsers) { ?><a class="button" href="find_user.php">Find User</a><?php } ?>

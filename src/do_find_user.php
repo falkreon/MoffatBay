@@ -61,7 +61,7 @@ try {
 		<h1>User Search</h1>
 		<ul class="search-results">
 		<?php foreach($searchResults as $result) { ?>
-			<a href="user_home.php?user=<?= $result->Id ?>"><li><?= $result->FirstName ?> <?= $result->LastName ?> - <?= $result->Email ?></li></a>
+			<a href="user_home.php?user=<?= $result->Id ?>"><li><?= htmlspecialchars($result->FirstName) ?> <?= htmlspecialchars($result->LastName) ?> - <?= htmlspecialchars($result->Email) ?></li></a>
 		<?php } ?>
 		</ul>
 		<p>Search Again:
