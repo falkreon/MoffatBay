@@ -97,8 +97,8 @@ $numberOfNights = $checkOutDate->diff($checkInDate)->days;
                 <?php endif; ?>
             </div>
 
-            <div class="checkReservations-button">
-                <a href="user_home.php">Check Reservations</a>
+           <div class="backToProfile-button">
+                <a href="user_home.php">Back To Profile</a>
             </div>
         </section>
 
