@@ -114,7 +114,7 @@ input::-ms-clear {
 }
 
 .password-field {
-	display: inline-flex;
+	display: inline-block;
 	position: relative;
 	width: 60%;
 	vertical-align: middle;
