@@ -49,6 +49,7 @@ try {
 
 
 	$showEdit = $db->sessionHasPermission(Permission::EDIT_OTHER_RESERVATION);
+	$showCancel = $showEdit || isset($_SESSION['user_id']) && $_SESSION['user_id'] == (int) $res->UserId;
 } finally {
 	unset($db);
 }
@@ -96,9 +97,16 @@ try {
 					<p><strong>Comments:</strong> <?= nl2br(htmlspecialchars($res->SpecialRequests)) ?></p>
 				<?php endif; ?>
 
-				<?php if ($showEdit) { ?>
-					<div class="buttons"><a class="edit-button" href="edit_reservation.php?id=<?= $res->Id ?>">Edit</a></div>
-				<?php } ?>
+				<div class="buttons">
+					<span></span>
+					<?php if ($showEdit) { ?>
+						<a class="edit-button" href="edit_reservation.php?id=<?= (int) $res->Id ?>">Edit</a>
+					<?php } ?>
+					<?php if ($showCancel) { ?>
+						<a class="confirm-button" href="cancel_reservation.php?r=<?= htmlspecialchars($res->ConfirmationNumber) ?>">Cancel Reservation</a>
+					<?php } ?>
+					<a class="edit-button" onClick="history.go(-1);" href="#">Go Back</a>
+				</div>
 			</div>
 		</section>
 	</body>
