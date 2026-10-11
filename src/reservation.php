@@ -67,10 +67,12 @@ $reservationError = isset($_GET['error']) && $_GET['error'] === '1';
 				} else {
 					guestsDropdown.replaceChildren();
 					let maxGuests = (index < ROOM_OCCUPANCY.length) ? ROOM_OCCUPANCY[index] : 6;
-					for(let i = 0; i<maxGuests; i++) {
 						// https://caniuse.com/mdn-api_htmlselectelement_add - baseline support
+						guestsDropdown.add(new Option('1 guest'));
+					
+					for(let i=1; i<maxGuests; i++) {
 						guestsDropdown.add(new Option((i+1) + ' guests'));
-					}
+						}
 					
 					guestsDropdown.disabled = false;
 				}
