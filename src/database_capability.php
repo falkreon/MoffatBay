@@ -652,6 +652,29 @@ class ReadWriteCapability extends ReadCapability {
 			return FALSE;
 		}
 	}
+	
+	/**
+	 * Removes a Reservation entirely from the database.
+	 * 
+	 * @param Reservation|int $reservation
+	 *   The Reservation to delete, or the integer id of the Reservation to delete
+	 *
+	 * @return bool
+	 *   True if the Reservation was deleted successfully. False if for any reason the Reservation
+	 *   could not be deleted.
+	 */
+	function deleteReservation(Reservation|int $reservation): bool {
+		$id = ($reservation instanceof Reservation) ? $reservation->Id : $reservation;
+		try {
+			$stmt = $this->connection->prepare("DELETE FROM Reservation WHERE Id = :id;");
+			$result = $stmt->execute([ ':id' => $id ]);
+			return ($result === false) ? false : true;
+		} catch (Exception $e) {
+			return false;
+		}
+		
+		return true;
+	}
 
 	/**
 	 * Creates a new ContactMessage in the database to represent a form submission.
