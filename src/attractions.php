@@ -24,7 +24,7 @@ session_start();
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="base.css">
-		<link rel="stylesheet" href="attractions.css?v=3">
+		<link rel="stylesheet" href="attractions.css">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
