@@ -97,6 +97,9 @@ session_start();
 				</p>
 			</div>
 		</section>
+		<div class="contact-jump">
+			<a href="about_us.php#contact-us" class="book-your-vacation">Questions? Contact Us!</a>
+		</div>
 	</body>
 
 </html>

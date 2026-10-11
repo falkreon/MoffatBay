@@ -49,6 +49,9 @@ if (isset($_SESSION['user_id'])) {
 			and time well spent. Whether you're planning a romantic getaway,
  			a family trip, or a relaxing retreat, you'll find comfort and adventure all in one place.
 		</p>
+		<div class="contact-jump">
+			<a href="#contact-us" class="book-your-vacation">Questions? Contact Us!</a>
+		</div>
 	</div>
 	<section>
 
@@ -87,7 +90,7 @@ if (isset($_SESSION['user_id'])) {
 		</div>
 
 	</section>
-	<section class="contact-section">
+	<section class="contact-section" id="contact-us">
 
 		<div class="contactform">
 

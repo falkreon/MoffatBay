@@ -90,6 +90,7 @@ try {
 			<div class="home-actions">
 				<a class="button" href="logout.php">Log Out</a>
 				<a class="button callout-button" href="index.php">Moffat Bay Lodge</a>
+				<a class="button" href="about_us.php#contact-us">Questions? Contact Us!</a>
 			</div>
 			<?php }
 
@@ -117,7 +118,7 @@ try {
 						<td><?= $days ?> Days</td>
 					</tr>
 				<?php }
-				if ($_SESSION['user_id'] == $viewedUser) { ?>
+				if (($_SESSION['user_id'] == $viewedUser)) { ?>
 					<tr>
 						<td><a class="button" href="reservation.php">New</a></td>
 					</tr>
